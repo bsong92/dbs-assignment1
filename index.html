@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design Gallery — LoungeLink</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -12,149 +14,461 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #f5f5f4;
+            color: #1a1a1a;
             min-height: 100vh;
-            padding: 4rem 2rem;
         }
 
-        .container {
-            max-width: 900px;
+        .header {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 4rem 2rem 3rem;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 0.5rem;
-        }
-
-        h1 span {
-            color: #f0c040;
-        }
-
-        .subtitle {
-            color: rgba(255,255,255,0.4);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .intro {
-            color: rgba(255,255,255,0.55);
-            font-size: 0.95rem;
-            line-height: 1.8;
-            margin-bottom: 3rem;
-            max-width: 700px;
-        }
-
-        .phase {
-            margin-bottom: 3rem;
-        }
-
-        .phase-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
+        .header-eyebrow {
+            font-size: 0.7rem;
+            font-weight: 500;
             letter-spacing: 2px;
-            color: #f0c040;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 1rem;
+            line-height: 1.15;
+        }
+
+        .header h1 span {
+            color: #dc2626;
+        }
+
+        .header-desc {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #666;
+            max-width: 650px;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
         }
 
-        .version-grid {
+        .header-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .phase-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .phase-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .version-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            padding: 1.25rem;
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
             text-decoration: none;
-            color: #e0e0e0;
-            transition: transform 0.2s, background 0.2s;
-            display: block;
+            color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e8e8e8;
         }
 
-        .version-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255,255,255,0.08);
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
 
-        .version-card .version-number {
+        .card-preview {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-preview .preview-label {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+        }
+
+        /* v1 - Dark gradient tech */
+        .preview-v1 {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        }
+        .preview-v1 .preview-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .preview-v1 .preview-text span {
+            background: linear-gradient(90deg, #f0c040, #f09040);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* v2 - Minimal editorial */
+        .preview-v2 {
+            background: #faf9f6;
+        }
+        .preview-v2 .preview-text {
+            font-family: Georgia, serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* v3 - Brutalist */
+        .preview-v3 {
+            background: #fff;
+            border-bottom: 3px solid #000;
+        }
+        .preview-v3 .preview-text {
+            font-family: 'Courier New', monospace;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        .preview-v3 .preview-text .outline {
+            -webkit-text-stroke: 2px #000;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* v4 - Luxury */
+        .preview-v4 {
+            background: #0b0b0b;
+        }
+        .preview-v4 .preview-text {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #c9a96e;
+            text-align: center;
+            letter-spacing: 2px;
+            line-height: 1.4;
+        }
+        .preview-v4 .diamond {
+            width: 6px;
+            height: 6px;
+            background: #c9a96e;
+            transform: rotate(45deg);
+            margin: 0.75rem auto 0;
+        }
+
+        /* v5 - Retro travel */
+        .preview-v5 {
+            background: #f4ece1;
+            position: relative;
+        }
+        .preview-v5 .preview-text {
+            font-family: Georgia, serif;
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            color: #8b3a3a;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .preview-v5 .stamp {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(139,58,58,0.2);
+            border-radius: 50%;
+            top: 20px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            color: rgba(139,58,58,0.25);
+            font-weight: 700;
+            letter-spacing: 1px;
+            transform: rotate(-15deg);
         }
 
-        .version-card .version-desc {
+        /* v6 - Cyberpunk */
+        .preview-v6 {
+            background: #0a0a0a;
+            position: relative;
+        }
+        .preview-v6::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 2px,
+                rgba(0,255,136,0.03) 2px, rgba(0,255,136,0.03) 4px
+            );
+            pointer-events: none;
+        }
+        .preview-v6 .preview-text {
+            font-family: 'Courier New', monospace;
             font-size: 0.85rem;
-            color: rgba(255,255,255,0.4);
-            line-height: 1.5;
+            color: #00ff88;
+            text-align: left;
+            line-height: 1.8;
+        }
+        .preview-v6 .preview-text .red {
+            color: #ff0055;
+        }
+        .preview-v6 .preview-text .dim {
+            color: #00ff8844;
         }
 
-        .final-banner {
-            background: linear-gradient(135deg, rgba(240,192,64,0.1), rgba(240,144,64,0.1));
-            border: 1px solid rgba(240,192,64,0.2);
-            border-radius: 12px;
+        .card-body {
+            padding: 1.25rem 1.5rem 1.5rem;
+        }
+
+        .card-version {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #dc2626;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.3px;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #666;
+            background: #f0f0f0;
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            border: 1px solid #e0e0e0;
         }
 
         footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            color: rgba(255,255,255,0.25);
-            font-size: 0.85rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem 3rem;
+            border-top: 1px solid #e5e5e5;
+            font-size: 0.8rem;
+            color: #aaa;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer a {
+            color: #999;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .header-meta { flex-direction: column; gap: 0.5rem; }
+            footer { flex-direction: column; gap: 0.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Lounge<span>Link</span> — Design Gallery</h1>
-        <p class="subtitle">25 iterations of a real-time airport lounge companion app</p>
-        <p class="intro">
-            Priority Pass gives you access to airport lounges, but tells you nothing about what's happening inside —
-            how crowded it is, what food is being served, or how long the wait is. LoungeLink is a concept for a
-            real-time lounge companion that solves this. Below is the design journey from wild exploration to final refinement.
+    <header class="header">
+        <div class="header-eyebrow">MPCS 51238 &middot; Design, Build, Ship &middot; Spring 2026</div>
+        <h1>Lounge<span>Link</span> Design Gallery</h1>
+        <p class="header-desc">
+            Priority Pass gives you lounge access but zero live information. LoungeLink is a concept for a real-time
+            airport lounge companion — live capacity, menus, waitlists, and solo traveler matching. Below are 25 iterations
+            exploring this idea from wild directions to a refined final version.
         </p>
-
-        <div class="phase">
-            <div class="phase-title">Phase 1 — Exploration (v1–v10)</div>
-            <div class="version-grid">
-                <a href="v1.html" class="version-card">
-                    <div class="version-number">v1</div>
-                    <div class="version-desc">Dark gradient tech — bold hero with gold accents and live status cards</div>
-                </a>
-                <a href="v2.html" class="version-card">
-                    <div class="version-number">v2</div>
-                    <div class="version-desc">Minimal editorial — serif typography, cream background, clean rows</div>
-                </a>
-                <a href="v3.html" class="version-card">
-                    <div class="version-number">v3</div>
-                    <div class="version-desc">Brutalist — monospace type, harsh borders, blinking live feed, raw energy</div>
-                </a>
-                <a href="v4.html" class="version-card">
-                    <div class="version-number">v4</div>
-                    <div class="version-desc">Luxury first-class — dark with gold accents, Cormorant Garamond, segment bars</div>
-                </a>
-                <a href="v5.html" class="version-card">
-                    <div class="version-number">v5</div>
-                    <div class="version-desc">Retro travel poster — warm parchment, passport stamps, postcard lounge status</div>
-                </a>
-                <a href="v6.html" class="version-card">
-                    <div class="version-number">v6</div>
-                    <div class="version-desc">Cyberpunk terminal — green-on-black, CRT scanlines, live data feed table</div>
-                </a>
-            </div>
+        <div class="header-meta">
+            <span>Brian Song</span>
+            <span>25 Iterations</span>
+            <span>HTML + CSS</span>
         </div>
+    </header>
 
-        <footer>
-            Brian Song &middot; MPCS 51238 &middot; Design, Build, Ship &middot; Spring 2026
-        </footer>
-    </div>
+    <section class="phase-section">
+        <div class="phase-label">Phase 1 — Exploration (v1–v10)</div>
+        <div class="card-grid">
+
+            <a href="v1.html" class="card">
+                <div class="card-preview preview-v1">
+                    <div class="preview-text">Know your lounge<br><span>before you arrive</span></div>
+                    <span class="preview-label">Dark Tech</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V1</div>
+                    <div class="card-title">Dark Gradient Tech</div>
+                    <p class="card-desc">Bold startup energy. Deep purple-navy gradient with gold accents, glowing CTAs, and card-based live lounge status. Polished and confident.</p>
+                    <div class="card-tags">
+                        <span class="tag">Dark Mode</span>
+                        <span class="tag">Gradient</span>
+                        <span class="tag">Cards</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="v2.html" class="card">
+                <div class="card-preview preview-v2">
+                    <div class="preview-text">The lounge experience,<br><em>reimagined</em></div>
+                    <span class="preview-label">Editorial</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V2</div>
+                    <div class="card-title">Minimal Editorial</div>
+                    <p class="card-desc">Calm and sophisticated. Georgia serif on cream, generous whitespace, understated link CTA, and lounge data as clean horizontal rows.</p>
+                    <div class="card-tags">
+                        <span class="tag">Serif</span>
+                        <span class="tag">Minimal</span>
+                        <span class="tag">Light</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="v3.html" class="card">
+                <div class="card-preview preview-v3">
+                    <div class="preview-text">STOP<br><span class="outline">GUESSING</span></div>
+                    <span class="preview-label">Brutalist</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V3</div>
+                    <div class="card-title">Brutalist Manifesto</div>
+                    <p class="card-desc">Raw, aggressive, confrontational. Courier monospace, thick black borders, numbered blocks, blinking red live dot, and a data table with capacity bars.</p>
+                    <div class="card-tags">
+                        <span class="tag">Monospace</span>
+                        <span class="tag">Bold Typography</span>
+                        <span class="tag">B&W</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="v4.html" class="card">
+                <div class="card-preview preview-v4">
+                    <div class="preview-text">Travel with<br><em>clarity</em></div>
+                    <div class="diamond"></div>
+                    <span class="preview-label">Luxury</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V4</div>
+                    <div class="card-title">Luxury First-Class</div>
+                    <p class="card-desc">Exclusive and refined. Deep black with muted gold, Cormorant Garamond serif, diamond ornaments, Roman numeral features, and segmented capacity bars.</p>
+                    <div class="card-tags">
+                        <span class="tag">Premium</span>
+                        <span class="tag">Gold</span>
+                        <span class="tag">Elegant</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="v5.html" class="card">
+                <div class="card-preview preview-v5">
+                    <div class="preview-text">Your Lounge,<br>Revealed</div>
+                    <div class="stamp">ORD<br>2026</div>
+                    <span class="preview-label">Vintage</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V5</div>
+                    <div class="card-title">Retro Travel Poster</div>
+                    <p class="card-desc">Warm and nostalgic. Parchment background, Abril Fatface display serif, faded passport stamps, dashed-border features, and an AIRMAIL postcard for lounge data.</p>
+                    <div class="card-tags">
+                        <span class="tag">Vintage</span>
+                        <span class="tag">Warm Tones</span>
+                        <span class="tag">Stamps</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="v6.html" class="card">
+                <div class="card-preview preview-v6">
+                    <div class="preview-text">
+                        <span class="dim">&gt;</span> LOUNGE_LINK<span class="red">_</span><br>
+                        <span class="dim">&gt;</span> STATUS: <span class="red">ONLINE</span><br>
+                        <span class="dim">&gt;</span> NODES: 1,247
+                    </div>
+                    <span class="preview-label">Cyberpunk</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V6</div>
+                    <div class="card-title">Cyberpunk Terminal</div>
+                    <p class="card-desc">Hacker dashboard energy. Green-on-black with CRT scanlines, system status bars, hex-addressed modules, glowing capacity bars, and node ping latency.</p>
+                    <div class="card-tags">
+                        <span class="tag">Dark Mode</span>
+                        <span class="tag">Animated</span>
+                        <span class="tag">Sci-Fi</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <footer>
+        <span>Brian Song &middot; MPCS 51238 &middot; Design, Build, Ship &middot; Spring 2026</span>
+        <a href="https://github.com/bsong92/dbs-assignment1">GitHub Repository</a>
+    </footer>
 </body>
 </html>
