@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v9</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fefcfb;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 3rem;
+            background: #fff;
+            border-bottom: 1px solid #f0ebe6;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #e0604e;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: #1a1a1a; }
+
+        .nav-btn {
+            background: #e0604e;
+            color: #fff;
+            padding: 0.55rem 1.3rem;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .hero {
+            padding: 5rem 3rem 3rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero-chip {
+            display: inline-block;
+            background: #fef2f0;
+            color: #e0604e;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .warm {
+            color: #e0604e;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: #888;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 2rem 2rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .live-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.3); }
+            50% { box-shadow: 0 0 0 5px rgba(34,197,94,0); }
+        }
+
+        .lounges {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .lounge {
+            background: #fff;
+            border: 1px solid #f0ebe6;
+            border-radius: 16px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+
+        .l-toggle { display: none; }
+
+        .l-head {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.25rem 1.75rem;
+            cursor: pointer;
+        }
+
+        .l-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .l-loc {
+            font-size: 0.78rem;
+            color: #aaa;
+        }
+
+        .arrow {
+            color: #ccc;
+            font-size: 0.65rem;
+            transition: transform 0.3s;
+            margin-left: 0.3rem;
+        }
+
+        .l-toggle:checked ~ .l-head .arrow { transform: rotate(180deg); }
+
+        .cap-area {
+            text-align: right;
+        }
+
+        .cap-num {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .cap-num .of { color: #ddd; font-weight: 400; }
+        .cap-num .tot { color: #bbb; font-weight: 400; }
+
+        .cap-track {
+            width: 110px;
+            height: 5px;
+            background: #f5f0ec;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.3rem;
+            margin-left: auto;
+        }
+
+        .cap-bar { height: 100%; border-radius: 3px; }
+        .cg { background: #22c55e; }
+        .ca { background: #f59e0b; }
+        .cr { background: #ef4444; }
+
+        .status-area { text-align: right; min-width: 110px; }
+
+        .s-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.7rem;
+            border-radius: 8px;
+        }
+
+        .s-open { background: #f0fdf4; color: #166534; }
+        .s-busy { background: #fffbeb; color: #92400e; }
+        .s-full { background: #fef2f2; color: #991b1b; }
+
+        .wait-line {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 0.25rem;
+        }
+        .wait-line strong { color: #777; }
+
+        .l-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease;
+        }
+
+        .l-toggle:checked ~ .l-body {
+            max-height: 1200px;
+        }
+
+        .l-inner {
+            padding: 0 1.75rem 1.75rem;
+            border-top: 1px solid #f5f0ec;
+        }
+
+        .dl {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #bbb;
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        /* Food grid with real photos */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .food-card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #f0ebe6;
+            transition: transform 0.15s;
+        }
+
+        .food-card:hover { transform: scale(1.02); }
+
+        .food-photo {
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .food-cat {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .food-text {
+            padding: 0.6rem 0.7rem;
+        }
+
+        .food-text .fname {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .food-text .fdesc {
+            font-size: 0.68rem;
+            color: #aaa;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item { display: flex; flex-direction: column; }
+        .info-val { font-size: 1rem; font-weight: 700; }
+        .info-lbl { font-size: 0.68rem; color: #aaa; }
+
+        /* Solo travelers with expandable profiles */
+        .solo-grid {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .solo-toggle { display: none; }
+
+        .solo-card {
+            position: relative;
+        }
+
+        .solo-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #fef2f0;
+            border: 1px solid #fde8e4;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: #e0604e;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .solo-chip:hover {
+            background: #fde8e4;
+        }
+
+        .solo-chip .av {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #e0604e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .solo-profile {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 0;
+            background: #fff;
+            border: 1px solid #f0ebe6;
+            border-radius: 14px;
+            padding: 1.25rem;
+            width: 260px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            z-index: 50;
+        }
+
+        .solo-toggle:checked + .solo-chip + .solo-profile {
+            display: block;
+        }
+
+        .solo-toggle:checked + .solo-chip {
+            background: #e0604e;
+            color: #fff;
+            border-color: #e0604e;
+        }
+
+        .solo-toggle:checked + .solo-chip .av {
+            background: #fff;
+            color: #e0604e;
+        }
+
+        .sp-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .sp-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e0604e, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .sp-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .sp-dest {
+            font-size: 0.72rem;
+            color: #aaa;
+        }
+
+        .sp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        .sp-field {
+            font-size: 0.72rem;
+        }
+
+        .sp-field .sp-label {
+            color: #bbb;
+            font-weight: 500;
+            margin-bottom: 0.1rem;
+        }
+
+        .sp-field .sp-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .sp-hobbies {
+            margin-top: 0.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .sp-hobby {
+            font-size: 0.6rem;
+            background: #f5f0ec;
+            color: #666;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .hero { padding: 3rem 1.5rem 2rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .lounges { padding: 0 1rem 3rem; }
+            .l-head { grid-template-columns: 1fr; gap: 0.75rem; }
+            .cap-area, .status-area { text-align: left; }
+            .cap-track { margin-left: 0; }
+            .food-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .solo-profile { left: -20px; width: 240px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">LoungeLink</div>
+        <div class="nav-links">
+            <a href="#lounges">Explore</a>
+            <a href="#">About</a>
+            <button class="nav-btn">Join Waitlist</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-chip">Live lounge data from 4 airports</div>
+        <h1>The lounge app for <span class="warm">real travelers</span></h1>
+        <p>Real seats, real menus, real people. See what's happening inside airport lounges right now — and meet fellow solo travelers along the way.</p>
+    </section>
+
+    <div class="section-header" id="lounges">
+        <h2>Explore Lounges</h2>
+        <div class="live-tag"><span class="live-dot"></span> Live</div>
+    </div>
+
+    <section class="lounges">
+
+        <!-- ORD Centurion — open -->
+        <div class="lounge">
+            <input type="checkbox" id="t1" class="l-toggle">
+            <label for="t1" class="l-head">
+                <div>
+                    <div class="l-name">The Centurion Lounge <span class="arrow">&#9662;</span></div>
+                    <div class="l-loc">ORD &middot; Chicago O'Hare &middot; Terminal 3</div>
+                </div>
+                <div class="cap-area">
+                    <div class="cap-num">27 <span class="of">/</span> <span class="tot">70</span></div>
+                    <div class="cap-track"><div class="cap-bar cg" style="width:39%"></div></div>
+                </div>
+                <div class="status-area">
+                    <span class="s-badge s-open">Open</span>
+                </div>
+            </label>
+            <div class="l-body">
+                <div class="l-inner">
+                    <div class="dl">Serving Now</div>
+                    <div class="food-grid">
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=300&h=200&fit=crop')"><span class="food-cat">Bakery</span></div>
+                            <div class="food-text"><div class="fname">Butter Croissant</div><div class="fdesc">Freshly baked, flaky</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1608039829572-9b0ba909df18?w=300&h=200&fit=crop')"><span class="food-cat">Hot</span></div>
+                            <div class="food-text"><div class="fname">Eggs Benedict</div><div class="fdesc">Hollandaise, English muffin</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=300&h=200&fit=crop')"><span class="food-cat">Coffee</span></div>
+                            <div class="food-text"><div class="fname">Lavazza Espresso</div><div class="fdesc">Double shot, crema</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=300&h=200&fit=crop')"><span class="food-cat">Fresh</span></div>
+                            <div class="food-text"><div class="fname">Avocado Toast</div><div class="fdesc">Sourdough, chili flakes</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=200&fit=crop')"><span class="food-cat">Juice</span></div>
+                            <div class="food-text"><div class="fname">Fresh Orange Juice</div><div class="fdesc">Squeezed to order</div></div>
+                        </div>
+                    </div>
+                    <div class="dl">Lounge Info</div>
+                    <div class="info-row">
+                        <div class="info-item"><span class="info-val">43</span><span class="info-lbl">Seats open</span></div>
+                        <div class="info-item"><span class="info-val">None</span><span class="info-lbl">Waitlist</span></div>
+                        <div class="info-item"><span class="info-val">Walk in</span><span class="info-lbl">Access</span></div>
+                        <div class="info-item"><span class="info-val">8:30 PM</span><span class="info-lbl">Closes</span></div>
+                    </div>
+                    <div class="dl">Solo Travelers</div>
+                    <div class="solo-grid">
+                        <div class="solo-card">
+                            <input type="checkbox" id="s1" class="solo-toggle">
+                            <label for="s1" class="solo-chip"><span class="av">JK</span> James K.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">JK</div>
+                                    <div><div class="sp-name">James Kim</div><div class="sp-dest">ORD → SFO &middot; Gate B12</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">31</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Male</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Product Manager</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Chicago, IL</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Photography</span>
+                                    <span class="sp-hobby">Hiking</span>
+                                    <span class="sp-hobby">Coffee</span>
+                                    <span class="sp-hobby">Startups</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="solo-card">
+                            <input type="checkbox" id="s2" class="solo-toggle">
+                            <label for="s2" class="solo-chip"><span class="av">ML</span> Maria L.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">ML</div>
+                                    <div><div class="sp-name">Maria Lopez</div><div class="sp-dest">ORD → NRT &middot; Gate C22</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">28</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Female</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">UX Designer</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Austin, TX</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Sketching</span>
+                                    <span class="sp-hobby">Yoga</span>
+                                    <span class="sp-hobby">Anime</span>
+                                    <span class="sp-hobby">Ramen</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="solo-card">
+                            <input type="checkbox" id="s3" class="solo-toggle">
+                            <label for="s3" class="solo-chip"><span class="av">DP</span> David P.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">DP</div>
+                                    <div><div class="sp-name">David Park</div><div class="sp-dest">ORD → LHR &middot; Gate K8</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">45</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Male</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Consultant</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">New York, NY</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Golf</span>
+                                    <span class="sp-hobby">Wine</span>
+                                    <span class="sp-hobby">History</span>
+                                    <span class="sp-hobby">Chess</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAX Plaza Premium — busy, not full -->
+        <div class="lounge">
+            <input type="checkbox" id="t2" class="l-toggle">
+            <label for="t2" class="l-head">
+                <div>
+                    <div class="l-name">Plaza Premium Lounge <span class="arrow">&#9662;</span></div>
+                    <div class="l-loc">LAX &middot; Los Angeles &middot; Tom Bradley Intl</div>
+                </div>
+                <div class="cap-area">
+                    <div class="cap-num">43 <span class="of">/</span> <span class="tot">60</span></div>
+                    <div class="cap-track"><div class="cap-bar ca" style="width:72%"></div></div>
+                </div>
+                <div class="status-area">
+                    <span class="s-badge s-busy">Busy</span>
+                </div>
+            </label>
+            <div class="l-body">
+                <div class="l-inner">
+                    <div class="dl">Serving Now</div>
+                    <div class="food-grid">
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300&h=200&fit=crop')"><span class="food-cat">Noodles</span></div>
+                            <div class="food-text"><div class="fname">Pho Noodle Soup</div><div class="fdesc">Beef broth, Thai basil</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300&h=200&fit=crop')"><span class="food-cat">Dim Sum</span></div>
+                            <div class="food-text"><div class="fname">Steamed Bao Buns</div><div class="fdesc">Pork belly, hoisin</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop')"><span class="food-cat">Fresh</span></div>
+                            <div class="food-text"><div class="fname">Thai Mango Salad</div><div class="fdesc">Chili-lime dressing</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300&h=200&fit=crop')"><span class="food-cat">Dessert</span></div>
+                            <div class="food-text"><div class="fname">Matcha Cake</div><div class="fdesc">White chocolate ganache</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&h=200&fit=crop')"><span class="food-cat">Tea</span></div>
+                            <div class="food-text"><div class="fname">Jasmine Tea</div><div class="fdesc">Loose leaf, hot</div></div>
+                        </div>
+                    </div>
+                    <div class="dl">Lounge Info</div>
+                    <div class="info-row">
+                        <div class="info-item"><span class="info-val">17</span><span class="info-lbl">Seats open</span></div>
+                        <div class="info-item"><span class="info-val">None</span><span class="info-lbl">Waitlist</span></div>
+                        <div class="info-item"><span class="info-val">Walk in</span><span class="info-lbl">Access</span></div>
+                        <div class="info-item"><span class="info-val">11:00 PM</span><span class="info-lbl">Closes</span></div>
+                    </div>
+                    <div class="dl">Solo Travelers</div>
+                    <div class="solo-grid">
+                        <div class="solo-card">
+                            <input type="checkbox" id="s4" class="solo-toggle">
+                            <label for="s4" class="solo-chip"><span class="av">AW</span> Amy W.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">AW</div>
+                                    <div><div class="sp-name">Amy Wang</div><div class="sp-dest">LAX → ICN &middot; Gate 148</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">26</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Female</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Data Scientist</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Seattle, WA</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">K-Drama</span>
+                                    <span class="sp-hobby">Running</span>
+                                    <span class="sp-hobby">Baking</span>
+                                    <span class="sp-hobby">Piano</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="solo-card">
+                            <input type="checkbox" id="s5" class="solo-toggle">
+                            <label for="s5" class="solo-chip"><span class="av">TN</span> Taro N.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">TN</div>
+                                    <div><div class="sp-name">Taro Nakamura</div><div class="sp-dest">LAX → HND &middot; Gate 156</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">34</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Male</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Architect</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Portland, OR</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Cycling</span>
+                                    <span class="sp-hobby">Film</span>
+                                    <span class="sp-hobby">Ceramics</span>
+                                    <span class="sp-hobby">Jazz</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JFK SkyTeam — FULL, waitlist -->
+        <div class="lounge">
+            <input type="checkbox" id="t3" class="l-toggle">
+            <label for="t3" class="l-head">
+                <div>
+                    <div class="l-name">SkyTeam Lounge <span class="arrow">&#9662;</span></div>
+                    <div class="l-loc">JFK &middot; New York &middot; Terminal 4</div>
+                </div>
+                <div class="cap-area">
+                    <div class="cap-num">50 <span class="of">/</span> <span class="tot">50</span></div>
+                    <div class="cap-track"><div class="cap-bar cr" style="width:100%"></div></div>
+                </div>
+                <div class="status-area">
+                    <span class="s-badge s-full">Full</span>
+                    <div class="wait-line"><strong>12</strong> in waitlist &middot; ~25 min</div>
+                </div>
+            </label>
+            <div class="l-body">
+                <div class="l-inner">
+                    <div class="dl">Serving Now</div>
+                    <div class="food-grid">
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=300&h=200&fit=crop')"><span class="food-cat">Bakery</span></div>
+                            <div class="food-text"><div class="fname">Blueberry Muffin</div><div class="fdesc">Jumbo, fresh baked</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=300&h=200&fit=crop')"><span class="food-cat">Hot</span></div>
+                            <div class="food-text"><div class="fname">French Toast</div><div class="fdesc">Maple, powdered sugar</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=200&fit=crop')"><span class="food-cat">Main</span></div>
+                            <div class="food-text"><div class="fname">Truffle Pasta</div><div class="fdesc">Black truffle, parmesan</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1598346762291-aee88549193f?w=300&h=200&fit=crop')"><span class="food-cat">Bar</span></div>
+                            <div class="food-text"><div class="fname">Prosecco</div><div class="fdesc">DOC, chilled flute</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=300&h=200&fit=crop')"><span class="food-cat">Dessert</span></div>
+                            <div class="food-text"><div class="fname">NY Cheesecake</div><div class="fdesc">Classic, graham crust</div></div>
+                        </div>
+                    </div>
+                    <div class="dl">Lounge Info</div>
+                    <div class="info-row">
+                        <div class="info-item"><span class="info-val">0</span><span class="info-lbl">Seats open</span></div>
+                        <div class="info-item"><span class="info-val">12 people</span><span class="info-lbl">Waitlist</span></div>
+                        <div class="info-item"><span class="info-val">~25 min</span><span class="info-lbl">Est. wait</span></div>
+                        <div class="info-item"><span class="info-val">10:00 PM</span><span class="info-lbl">Closes</span></div>
+                    </div>
+                    <div class="dl">Solo Travelers</div>
+                    <div class="solo-grid">
+                        <div class="solo-card">
+                            <input type="checkbox" id="s6" class="solo-toggle">
+                            <label for="s6" class="solo-chip"><span class="av">RB</span> Rachel B.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">RB</div>
+                                    <div><div class="sp-name">Rachel Brown</div><div class="sp-dest">JFK → CDG &middot; Gate A7</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">37</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Female</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Art Director</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Brooklyn, NY</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Museums</span>
+                                    <span class="sp-hobby">Film</span>
+                                    <span class="sp-hobby">Cooking</span>
+                                    <span class="sp-hobby">Reading</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="solo-card">
+                            <input type="checkbox" id="s7" class="solo-toggle">
+                            <label for="s7" class="solo-chip"><span class="av">KM</span> Kevin M.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">KM</div>
+                                    <div><div class="sp-name">Kevin Martinez</div><div class="sp-dest">JFK → FCO &middot; Gate A12</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">29</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Male</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Software Engineer</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Miami, FL</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Surfing</span>
+                                    <span class="sp-hobby">Soccer</span>
+                                    <span class="sp-hobby">Gaming</span>
+                                    <span class="sp-hobby">Travel</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="solo-card">
+                            <input type="checkbox" id="s8" class="solo-toggle">
+                            <label for="s8" class="solo-chip"><span class="av">SC</span> Sofia C.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">SC</div>
+                                    <div><div class="sp-name">Sofia Chen</div><div class="sp-dest">JFK → MXP &middot; Gate B3</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">24</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Female</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Graduate Student</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Boston, MA</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Fashion</span>
+                                    <span class="sp-hobby">Photography</span>
+                                    <span class="sp-hobby">Gelato</span>
+                                    <span class="sp-hobby">Pilates</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IST Turkish — open -->
+        <div class="lounge">
+            <input type="checkbox" id="t4" class="l-toggle">
+            <label for="t4" class="l-head">
+                <div>
+                    <div class="l-name">Turkish Airlines Lounge <span class="arrow">&#9662;</span></div>
+                    <div class="l-loc">IST &middot; Istanbul &middot; International Terminal</div>
+                </div>
+                <div class="cap-area">
+                    <div class="cap-num">89 <span class="of">/</span> <span class="tot">200</span></div>
+                    <div class="cap-track"><div class="cap-bar cg" style="width:45%"></div></div>
+                </div>
+                <div class="status-area">
+                    <span class="s-badge s-open">Open</span>
+                </div>
+            </label>
+            <div class="l-body">
+                <div class="l-inner">
+                    <div class="dl">Serving Now</div>
+                    <div class="food-grid">
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1593001874117-c99c800e3eb6?w=300&h=200&fit=crop')"><span class="food-cat">Med</span></div>
+                            <div class="food-text"><div class="fname">Falafel Plate</div><div class="fdesc">Tahini, pickled turnip</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1586444248879-bc604bc77dac?w=300&h=200&fit=crop')"><span class="food-cat">Turkish</span></div>
+                            <div class="food-text"><div class="fname">Pide Bread</div><div class="fdesc">Stone oven, sesame</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=300&h=200&fit=crop')"><span class="food-cat">Grill</span></div>
+                            <div class="food-text"><div class="fname">Lamb Kebab</div><div class="fdesc">Charcoal grilled, sumac</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1519676867240-f03562e64548?w=300&h=200&fit=crop')"><span class="food-cat">Sweet</span></div>
+                            <div class="food-text"><div class="fname">Baklava</div><div class="fdesc">Pistachio, rose honey</div></div>
+                        </div>
+                        <div class="food-card">
+                            <div class="food-photo" style="background-image: url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=200&fit=crop')"><span class="food-cat">Coffee</span></div>
+                            <div class="food-text"><div class="fname">Turkish Coffee</div><div class="fdesc">Traditional, with lokum</div></div>
+                        </div>
+                    </div>
+                    <div class="dl">Lounge Info</div>
+                    <div class="info-row">
+                        <div class="info-item"><span class="info-val">111</span><span class="info-lbl">Seats open</span></div>
+                        <div class="info-item"><span class="info-val">None</span><span class="info-lbl">Waitlist</span></div>
+                        <div class="info-item"><span class="info-val">Walk in</span><span class="info-lbl">Access</span></div>
+                        <div class="info-item"><span class="info-val">24 hr</span><span class="info-lbl">Open</span></div>
+                    </div>
+                    <div class="dl">Solo Travelers</div>
+                    <div class="solo-grid">
+                        <div class="solo-card">
+                            <input type="checkbox" id="s9" class="solo-toggle">
+                            <label for="s9" class="solo-chip"><span class="av">EB</span> Elena B.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">EB</div>
+                                    <div><div class="sp-name">Elena Baranov</div><div class="sp-dest">IST → DXB &middot; Gate F14</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">33</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Female</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Journalist</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Berlin, DE</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Writing</span>
+                                    <span class="sp-hobby">Scuba</span>
+                                    <span class="sp-hobby">Markets</span>
+                                    <span class="sp-hobby">Languages</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="solo-card">
+                            <input type="checkbox" id="s10" class="solo-toggle">
+                            <label for="s10" class="solo-chip"><span class="av">OA</span> Omar A.</label>
+                            <div class="solo-profile">
+                                <div class="sp-header">
+                                    <div class="sp-avatar">OA</div>
+                                    <div><div class="sp-name">Omar Al-Rashid</div><div class="sp-dest">IST → DOH &middot; Gate E22</div></div>
+                                </div>
+                                <div class="sp-grid">
+                                    <div class="sp-field"><div class="sp-label">Age</div><div class="sp-value">41</div></div>
+                                    <div class="sp-field"><div class="sp-label">Gender</div><div class="sp-value">Male</div></div>
+                                    <div class="sp-field"><div class="sp-label">Occupation</div><div class="sp-value">Finance Director</div></div>
+                                    <div class="sp-field"><div class="sp-label">From</div><div class="sp-value">Amman, JO</div></div>
+                                </div>
+                                <div class="sp-hobbies">
+                                    <span class="sp-hobby">Tennis</span>
+                                    <span class="sp-hobby">Oud</span>
+                                    <span class="sp-hobby">Investing</span>
+                                    <span class="sp-hobby">Calligraphy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink &middot; Brian Song
+    </footer>
+</body>
+</html>
