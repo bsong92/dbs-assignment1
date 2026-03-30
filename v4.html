@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v4</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: #0b0b0b;
+            color: #e8e4dc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.008) 2px,
+                rgba(255,255,255,0.008) 4px
+            );
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .gold { color: #c9a96e; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 5rem;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #c9a96e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+        }
+
+        nav ul li a {
+            color: #777;
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #c9a96e;
+        }
+
+        .thin-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e33, transparent);
+            margin: 0 5rem;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 10rem 2rem 8rem;
+            position: relative;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #c9a96e;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5.5rem;
+            font-weight: 300;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: #c9a96e;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #888;
+            max-width: 480px;
+            line-height: 1.9;
+            margin-bottom: 4rem;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #c9a96e;
+            text-decoration: none;
+            border: 1px solid #c9a96e44;
+            padding: 1.2rem 3.5rem;
+            transition: all 0.4s;
+            font-weight: 400;
+        }
+
+        .hero-cta:hover {
+            background: #c9a96e;
+            color: #0b0b0b;
+            border-color: #c9a96e;
+        }
+
+        .diamond {
+            width: 8px;
+            height: 8px;
+            background: #c9a96e;
+            transform: rotate(45deg);
+            margin: 5rem auto;
+        }
+
+        .section-label {
+            text-align: center;
+            font-size: 0.65rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 5rem 6rem;
+            gap: 0;
+        }
+
+        .feature-col {
+            padding: 3rem 4rem;
+        }
+
+        .feature-divider {
+            background: linear-gradient(180deg, transparent, #c9a96e33, transparent);
+        }
+
+        .feature-item {
+            margin-bottom: 3.5rem;
+        }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-item .num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #c9a96e33;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .feature-item h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-item p {
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: #777;
+            line-height: 1.8;
+        }
+
+        .lounge-section {
+            padding: 6rem 5rem;
+        }
+
+        .lounge-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lounge-entry {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid #1f1f1f;
+        }
+
+        .lounge-entry:first-child {
+            border-top: 1px solid #1f1f1f;
+        }
+
+        .lounge-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+
+        .lounge-location {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 0.25rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .lounge-capacity {
+            text-align: right;
+        }
+
+        .capacity-label {
+            font-size: 0.65rem;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .capacity-visual {
+            display: flex;
+            gap: 3px;
+        }
+
+        .cap-segment {
+            width: 18px;
+            height: 3px;
+            background: #1f1f1f;
+        }
+
+        .cap-segment.filled {
+            background: #c9a96e;
+        }
+
+        .cap-segment.filled.warn {
+            background: #c9a96e88;
+        }
+
+        .cap-segment.filled.full {
+            background: #8b4513;
+        }
+
+        .lounge-status-tag {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+            width: 100px;
+            text-align: right;
+        }
+
+        .status-available { color: #7a9e7e; }
+        .status-limited { color: #c9a96e; }
+        .status-waitlist { color: #8b5e3c; }
+
+        .closing {
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .closing p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            font-style: italic;
+            color: #555;
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid #1a1a1a;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #333;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 2rem 2rem; }
+            .hero h1 { font-size: 3.2rem; }
+            .features { grid-template-columns: 1fr; padding: 0 2rem 4rem; }
+            .feature-divider { display: none; }
+            .feature-col { padding: 2rem 0; }
+            .lounge-section { padding: 4rem 2rem; }
+            .lounge-entry { grid-template-columns: 1fr; gap: 1rem; }
+            .lounge-capacity, .lounge-status-tag { text-align: left; }
+            .thin-line { margin: 0 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">LoungeLink</div>
+        <ul>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#lounges">Lounges</a></li>
+            <li><a href="#">Membership</a></li>
+        </ul>
+    </nav>
+
+    <div class="thin-line"></div>
+
+    <section class="hero">
+        <div class="hero-eyebrow">A New Standard in Lounge Access</div>
+        <h1>Travel with <em>clarity</em></h1>
+        <p class="hero-desc">Real-time intelligence for the world's finest airport lounges. Capacity, menus, wait times, and curated connections — delivered with the discretion you expect.</p>
+        <a href="#" class="hero-cta">Request an Invitation</a>
+    </section>
+
+    <div class="diamond"></div>
+
+    <div class="section-label" id="experience">The Experience</div>
+
+    <section class="features">
+        <div class="feature-col">
+            <div class="feature-item">
+                <div class="num">I</div>
+                <h3>Live Occupancy</h3>
+                <p>Discreet, real-time capacity data for every lounge in our network. Know the atmosphere before you arrive.</p>
+            </div>
+            <div class="feature-item">
+                <div class="num">II</div>
+                <h3>Remote Waitlist</h3>
+                <p>Reserve your place from anywhere in the terminal. A quiet notification when your seat is ready.</p>
+            </div>
+        </div>
+        <div class="feature-divider"></div>
+        <div class="feature-col">
+            <div class="feature-item">
+                <div class="num">III</div>
+                <h3>Curated Menus</h3>
+                <p>Today's offerings, updated as they change. From the morning espresso bar to the evening cocktail selection.</p>
+            </div>
+            <div class="feature-item">
+                <div class="num">IV</div>
+                <h3>Quiet Introductions</h3>
+                <p>An optional, tasteful way to share a table with a fellow solo traveler. Connections made with care.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="thin-line"></div>
+
+    <div class="diamond"></div>
+
+    <div class="section-label" id="lounges">Current Lounges</div>
+
+    <section class="lounge-section">
+        <div class="lounge-list">
+            <div class="lounge-entry">
+                <div>
+                    <div class="lounge-name">The Centurion Lounge</div>
+                    <div class="lounge-location">Chicago O'Hare &middot; Terminal 3</div>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-label">Occupancy</div>
+                    <div class="capacity-visual">
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-tag status-available">Available</div>
+            </div>
+            <div class="lounge-entry">
+                <div>
+                    <div class="lounge-name">Plaza Premium</div>
+                    <div class="lounge-location">Los Angeles &middot; Tom Bradley International</div>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-label">Occupancy</div>
+                    <div class="capacity-visual">
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment filled"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                        <div class="cap-segment"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-tag status-limited">Limited</div>
+            </div>
+            <div class="lounge-entry">
+                <div>
+                    <div class="lounge-name">SkyTeam Lounge</div>
+                    <div class="lounge-location">New York JFK &middot; Terminal 4</div>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-label">Occupancy</div>
+                    <div class="capacity-visual">
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment filled full"></div>
+                        <div class="cap-segment"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-tag status-waitlist">Waitlist</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="thin-line"></div>
+
+    <section class="closing">
+        <p>The best lounge experience begins before you walk through the door.</p>
+        <a href="#" class="hero-cta">Join the Waitlist</a>
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink &middot; Brian Song
+    </footer>
+</body>
+</html>
