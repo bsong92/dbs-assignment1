@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v7</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(160deg, #eef2ff 0%, #faf5ff 50%, #fff1f2 100%);
+            color: #1e1b4b;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6d28d9;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #6d28d9, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #6d28d9;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fff;
+            border: 1px solid #e9d5ff;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #7c3aed;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(109,40,217,0.08);
+        }
+
+        .hero-pill .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, #6d28d9, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            color: #fff;
+            padding: 0.85rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.25);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #374151;
+            padding: 0.85rem 2rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #7c3aed;
+        }
+
+        .features-strip {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2rem 2rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feature-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .feature-chip .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .icon-purple { background: #ede9fe; }
+        .icon-pink { background: #fce7f3; }
+        .icon-green { background: #dcfce7; }
+        .icon-amber { background: #fef3c7; }
+
+        .section-title {
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+
+        .lounges-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 5rem;
+        }
+
+        .lounge-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #f3f4f6;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s;
+        }
+
+        .lounge-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .lounge-header {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+        }
+
+        .lounge-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .lounge-info .location {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .lounge-capacity {
+            text-align: right;
+        }
+
+        .capacity-numbers {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .capacity-numbers .current {
+            color: #1e1b4b;
+        }
+
+        .capacity-numbers .divider {
+            color: #d1d5db;
+        }
+
+        .capacity-numbers .total {
+            color: #9ca3af;
+        }
+
+        .capacity-bar-outer {
+            width: 140px;
+            height: 6px;
+            background: #f3f4f6;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .capacity-bar-inner {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .bar-green { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .bar-amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .bar-red { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        .lounge-status-area {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-open {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-busy {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-full {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .waitlist-info {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .waitlist-info strong {
+            color: #6b7280;
+        }
+
+        /* Expandable detail - using checkbox hack for pure CSS */
+        .lounge-toggle {
+            display: none;
+        }
+
+        .lounge-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .lounge-toggle:checked ~ .lounge-detail {
+            max-height: 800px;
+        }
+
+        .lounge-toggle:checked ~ .lounge-header .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .expand-icon {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            transition: transform 0.3s;
+            margin-left: 0.5rem;
+        }
+
+        .detail-inner {
+            padding: 0 2rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .detail-section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin: 1.25rem 0 1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .menu-item {
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.15s;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.03);
+        }
+
+        .menu-emoji {
+            font-size: 2.2rem;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .menu-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.15rem;
+        }
+
+        .menu-tag {
+            font-size: 0.65rem;
+            color: #9ca3af;
+        }
+
+        .detail-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e1b4b;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        .solo-travelers {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .solo-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #f5f3ff;
+            border: 1px solid #ede9fe;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: #6d28d9;
+            font-weight: 500;
+        }
+
+        .solo-chip .avatar {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 1.5rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .features-strip { flex-wrap: wrap; gap: 1.5rem; }
+            .lounge-header { grid-template-columns: 1fr; gap: 1rem; }
+            .lounge-capacity { text-align: left; }
+            .lounge-status-area { align-items: flex-start; }
+            .capacity-bar-outer { width: 100%; }
+            .menu-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .detail-stats { flex-wrap: wrap; }
+            .hero-ctas { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Lounge<span>Link</span></div>
+        <ul>
+            <li><a href="#lounges">Lounges</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Download</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-pill">
+            <span class="dot"></span>
+            3 lounges reporting live data now
+        </div>
+        <h1>Your airport lounge,<br><span class="gradient">in real time</span></h1>
+        <p>See exactly how full a lounge is, what's on the menu right now, how long the wait is, and find other solo travelers to share a table with.</p>
+        <div class="hero-ctas">
+            <button class="btn-primary">Get Early Access</button>
+            <button class="btn-secondary">See Live Lounges</button>
+        </div>
+    </section>
+
+    <section class="features-strip">
+        <div class="feature-chip">
+            <div class="icon icon-purple">📊</div>
+            Live Seats
+        </div>
+        <div class="feature-chip">
+            <div class="icon icon-pink">📋</div>
+            Waitlist
+        </div>
+        <div class="feature-chip">
+            <div class="icon icon-green">🍽️</div>
+            Menus
+        </div>
+        <div class="feature-chip">
+            <div class="icon icon-amber">🤝</div>
+            Solo Match
+        </div>
+    </section>
+
+    <section class="lounges-section" id="lounges">
+        <div class="section-title">Live Lounge Status</div>
+
+        <!-- Lounge 1: Centurion ORD -->
+        <div class="lounge-card">
+            <input type="checkbox" id="lounge1" class="lounge-toggle">
+            <label for="lounge1" class="lounge-header">
+                <div class="lounge-info">
+                    <h3>The Centurion Lounge <span class="expand-icon">&#9662;</span></h3>
+                    <span class="location">ORD &middot; Chicago O'Hare &middot; Terminal 3</span>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-numbers">
+                        <span class="current">27</span><span class="divider"> / </span><span class="total">70</span>
+                    </div>
+                    <div class="capacity-bar-outer">
+                        <div class="capacity-bar-inner bar-green" style="width: 38%"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-area">
+                    <span class="status-badge badge-open">Open</span>
+                </div>
+            </label>
+            <div class="lounge-detail">
+                <div class="detail-inner">
+                    <div class="detail-section-label">Serving Now</div>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <span class="menu-emoji">🥐</span>
+                            <div class="menu-name">Butter Croissant</div>
+                            <div class="menu-tag">Bakery</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍳</span>
+                            <div class="menu-name">Eggs Benedict</div>
+                            <div class="menu-tag">Hot Breakfast</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">☕</span>
+                            <div class="menu-name">Lavazza Espresso</div>
+                            <div class="menu-tag">Coffee Bar</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🥑</span>
+                            <div class="menu-name">Avocado Toast</div>
+                            <div class="menu-tag">Light Bites</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🧃</span>
+                            <div class="menu-name">Fresh OJ</div>
+                            <div class="menu-tag">Beverages</div>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Quick Stats</div>
+                    <div class="detail-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">43</span>
+                            <span class="stat-label">Seats available</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">In waitlist</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">No wait</span>
+                            <span class="stat-label">Est. wait time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">8:30pm</span>
+                            <span class="stat-label">Closes</span>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Solo Travelers Looking to Connect</div>
+                    <div class="solo-travelers">
+                        <span class="solo-chip"><span class="avatar">JK</span> James K. &middot; SFO flight</span>
+                        <span class="solo-chip"><span class="avatar">ML</span> Maria L. &middot; NRT flight</span>
+                        <span class="solo-chip"><span class="avatar">DP</span> David P. &middot; LHR flight</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lounge 2: Plaza Premium LAX -->
+        <div class="lounge-card">
+            <input type="checkbox" id="lounge2" class="lounge-toggle">
+            <label for="lounge2" class="lounge-header">
+                <div class="lounge-info">
+                    <h3>Plaza Premium Lounge <span class="expand-icon">&#9662;</span></h3>
+                    <span class="location">LAX &middot; Los Angeles &middot; Tom Bradley Intl</span>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-numbers">
+                        <span class="current">43</span><span class="divider"> / </span><span class="total">60</span>
+                    </div>
+                    <div class="capacity-bar-outer">
+                        <div class="capacity-bar-inner bar-amber" style="width: 72%"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-area">
+                    <span class="status-badge badge-busy">Busy</span>
+                    <span class="waitlist-info"><strong>5</strong> in waitlist &middot; ~10 min</span>
+                </div>
+            </label>
+            <div class="lounge-detail">
+                <div class="detail-inner">
+                    <div class="detail-section-label">Serving Now</div>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍜</span>
+                            <div class="menu-name">Pho Noodle Soup</div>
+                            <div class="menu-tag">Hot Meal</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🫔</span>
+                            <div class="menu-name">Chicken Bao</div>
+                            <div class="menu-tag">Asian Fusion</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🥗</span>
+                            <div class="menu-name">Thai Mango Salad</div>
+                            <div class="menu-tag">Fresh</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🧁</span>
+                            <div class="menu-name">Matcha Cake</div>
+                            <div class="menu-tag">Dessert</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍵</span>
+                            <div class="menu-name">Jasmine Tea</div>
+                            <div class="menu-tag">Tea Bar</div>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Quick Stats</div>
+                    <div class="detail-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">17</span>
+                            <span class="stat-label">Seats available</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">5</span>
+                            <span class="stat-label">In waitlist</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">~10 min</span>
+                            <span class="stat-label">Est. wait time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">11:00pm</span>
+                            <span class="stat-label">Closes</span>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Solo Travelers Looking to Connect</div>
+                    <div class="solo-travelers">
+                        <span class="solo-chip"><span class="avatar">AW</span> Amy W. &middot; ICN flight</span>
+                        <span class="solo-chip"><span class="avatar">TN</span> Taro N. &middot; HND flight</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lounge 3: SkyTeam JFK -->
+        <div class="lounge-card">
+            <input type="checkbox" id="lounge3" class="lounge-toggle">
+            <label for="lounge3" class="lounge-header">
+                <div class="lounge-info">
+                    <h3>SkyTeam Lounge <span class="expand-icon">&#9662;</span></h3>
+                    <span class="location">JFK &middot; New York &middot; Terminal 4</span>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-numbers">
+                        <span class="current">47</span><span class="divider"> / </span><span class="total">50</span>
+                    </div>
+                    <div class="capacity-bar-outer">
+                        <div class="capacity-bar-inner bar-red" style="width: 94%"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-area">
+                    <span class="status-badge badge-full">Full</span>
+                    <span class="waitlist-info"><strong>12</strong> in waitlist &middot; ~25 min</span>
+                </div>
+            </label>
+            <div class="lounge-detail">
+                <div class="detail-inner">
+                    <div class="detail-section-label">Serving Now</div>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <span class="menu-emoji">🫐</span>
+                            <div class="menu-name">Blueberry Muffin</div>
+                            <div class="menu-tag">Bakery</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🥖</span>
+                            <div class="menu-name">French Toast</div>
+                            <div class="menu-tag">Hot Breakfast</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍝</span>
+                            <div class="menu-name">Truffle Pasta</div>
+                            <div class="menu-tag">Main Course</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🥂</span>
+                            <div class="menu-name">Prosecco</div>
+                            <div class="menu-tag">Bar</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍰</span>
+                            <div class="menu-name">NY Cheesecake</div>
+                            <div class="menu-tag">Dessert</div>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Quick Stats</div>
+                    <div class="detail-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Seats available</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">12</span>
+                            <span class="stat-label">In waitlist</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">~25 min</span>
+                            <span class="stat-label">Est. wait time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">10:00pm</span>
+                            <span class="stat-label">Closes</span>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Solo Travelers Looking to Connect</div>
+                    <div class="solo-travelers">
+                        <span class="solo-chip"><span class="avatar">RB</span> Rachel B. &middot; CDG flight</span>
+                        <span class="solo-chip"><span class="avatar">KM</span> Kevin M. &middot; FCO flight</span>
+                        <span class="solo-chip"><span class="avatar">SC</span> Sofia C. &middot; MXP flight</span>
+                        <span class="solo-chip"><span class="avatar">HJ</span> Hiro J. &middot; NRT flight</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lounge 4: Turkish Airlines IST -->
+        <div class="lounge-card">
+            <input type="checkbox" id="lounge4" class="lounge-toggle">
+            <label for="lounge4" class="lounge-header">
+                <div class="lounge-info">
+                    <h3>Turkish Airlines Lounge <span class="expand-icon">&#9662;</span></h3>
+                    <span class="location">IST &middot; Istanbul &middot; International Terminal</span>
+                </div>
+                <div class="lounge-capacity">
+                    <div class="capacity-numbers">
+                        <span class="current">89</span><span class="divider"> / </span><span class="total">200</span>
+                    </div>
+                    <div class="capacity-bar-outer">
+                        <div class="capacity-bar-inner bar-green" style="width: 45%"></div>
+                    </div>
+                </div>
+                <div class="lounge-status-area">
+                    <span class="status-badge badge-open">Open</span>
+                </div>
+            </label>
+            <div class="lounge-detail">
+                <div class="detail-inner">
+                    <div class="detail-section-label">Serving Now</div>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <span class="menu-emoji">🧆</span>
+                            <div class="menu-name">Falafel Plate</div>
+                            <div class="menu-tag">Mediterranean</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🫓</span>
+                            <div class="menu-name">Pide Bread</div>
+                            <div class="menu-tag">Turkish</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍢</span>
+                            <div class="menu-name">Lamb Kebab</div>
+                            <div class="menu-tag">Grill</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">🍮</span>
+                            <div class="menu-name">Baklava</div>
+                            <div class="menu-tag">Dessert</div>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-emoji">☕</span>
+                            <div class="menu-name">Turkish Coffee</div>
+                            <div class="menu-tag">Coffee Bar</div>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Quick Stats</div>
+                    <div class="detail-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">111</span>
+                            <span class="stat-label">Seats available</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">In waitlist</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">No wait</span>
+                            <span class="stat-label">Est. wait time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">24hr</span>
+                            <span class="stat-label">Open</span>
+                        </div>
+                    </div>
+                    <div class="detail-section-label">Solo Travelers Looking to Connect</div>
+                    <div class="solo-travelers">
+                        <span class="solo-chip"><span class="avatar">EB</span> Elena B. &middot; DXB flight</span>
+                        <span class="solo-chip"><span class="avatar">OA</span> Omar A. &middot; DOH flight</span>
+                        <span class="solo-chip"><span class="avatar">LZ</span> Li Z. &middot; PVG flight</span>
+                        <span class="solo-chip"><span class="avatar">FD</span> Frank D. &middot; FRA flight</span>
+                        <span class="solo-chip"><span class="avatar">NS</span> Nina S. &middot; ATH flight</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink &middot; Brian Song
+    </footer>
+</body>
+</html>
