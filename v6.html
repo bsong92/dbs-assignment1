@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v6</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #0a0a0a;
+            color: #00ff88;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Scanline effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.15) 2px,
+                rgba(0,0,0,0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* CRT glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .boot-header {
+            padding: 1.5rem 3rem;
+            border-bottom: 1px solid #00ff8833;
+            font-size: 0.7rem;
+            color: #00ff8866;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .boot-header .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes flicker {
+            0%, 97%, 100% { opacity: 1; }
+            98% { opacity: 0.8; }
+            99% { opacity: 0.9; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .hero-terminal {
+            padding: 4rem 3rem;
+            border-bottom: 1px solid #00ff8822;
+        }
+
+        .cmd-prompt {
+            font-size: 0.75rem;
+            color: #00ff8866;
+            margin-bottom: 0.75rem;
+        }
+
+        .cmd-prompt .path {
+            color: #00aaff;
+        }
+
+        .hero-terminal h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0,255,136,0.3), 0 0 40px rgba(0,255,136,0.1);
+            animation: flicker 4s infinite;
+        }
+
+        .hero-terminal h1 .glitch {
+            color: #ff0055;
+            text-shadow: 0 0 10px rgba(255,0,85,0.5);
+        }
+
+        .ascii-line {
+            color: #00ff8833;
+            font-size: 0.7rem;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .hero-desc {
+            font-size: 0.85rem;
+            color: #00ff8899;
+            max-width: 600px;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .hero-desc .highlight {
+            color: #00ff88;
+            background: #00ff8815;
+            padding: 0 4px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0;
+            max-width: 500px;
+        }
+
+        .input-field {
+            flex: 1;
+            background: #0f1a14;
+            border: 1px solid #00ff8844;
+            color: #00ff88;
+            padding: 0.8rem 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #00ff8844;
+        }
+
+        .input-btn {
+            background: #00ff88;
+            color: #0a0a0a;
+            border: 1px solid #00ff88;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-btn:hover {
+            background: #00cc6e;
+            box-shadow: 0 0 15px rgba(0,255,136,0.3);
+        }
+
+        .system-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid #00ff8822;
+        }
+
+        .sys-item {
+            padding: 1rem 1.5rem;
+            border-right: 1px solid #00ff8822;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sys-item:last-child {
+            border-right: none;
+        }
+
+        .sys-label {
+            color: #00ff8844;
+            margin-bottom: 0.4rem;
+        }
+
+        .sys-value {
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+
+        .sys-value.warn {
+            color: #ffaa00;
+        }
+
+        .sys-value.critical {
+            color: #ff0055;
+        }
+
+        .section-header {
+            padding: 2.5rem 3rem 0.5rem;
+            font-size: 0.65rem;
+            color: #00ff8844;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .section-header .hex {
+            color: #00aaff;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            border-top: 1px solid #00ff8822;
+        }
+
+        .module {
+            padding: 2.5rem 3rem;
+            border-bottom: 1px solid #00ff8822;
+            border-right: 1px solid #00ff8822;
+            position: relative;
+        }
+
+        .module:nth-child(2n) {
+            border-right: none;
+        }
+
+        .module::before {
+            content: attr(data-id);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 0.6rem;
+            color: #00ff8822;
+            letter-spacing: 2px;
+        }
+
+        .module-status {
+            display: inline-block;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid;
+            margin-bottom: 1rem;
+        }
+
+        .status-online {
+            color: #00ff88;
+            border-color: #00ff8844;
+        }
+
+        .module h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .module p {
+            font-size: 0.8rem;
+            color: #00ff8877;
+            line-height: 1.7;
+        }
+
+        .data-feed {
+            padding: 2rem 3rem 3rem;
+            border-top: 1px solid #00ff8822;
+        }
+
+        .feed-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #00ff8866;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff0055;
+            animation: blink 1s infinite;
+            box-shadow: 0 0 6px #ff0055;
+        }
+
+        .node-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 200px 100px 80px;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #00ff8811;
+            font-size: 0.8rem;
+        }
+
+        .node-row:first-of-type {
+            font-size: 0.6rem;
+            color: #00ff8833;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #00ff8833;
+        }
+
+        .node-id {
+            color: #00aaff;
+        }
+
+        .node-name {
+            color: #00ff88;
+        }
+
+        .node-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 4px;
+            background: #00ff8815;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #00ff88;
+            box-shadow: 0 0 6px rgba(0,255,136,0.4);
+            transition: width 0.3s;
+        }
+
+        .bar-fill.warn {
+            background: #ffaa00;
+            box-shadow: 0 0 6px rgba(255,170,0,0.4);
+        }
+
+        .bar-fill.critical {
+            background: #ff0055;
+            box-shadow: 0 0 6px rgba(255,0,85,0.4);
+        }
+
+        .bar-pct {
+            font-size: 0.75rem;
+            width: 35px;
+            text-align: right;
+        }
+
+        .node-status {
+            text-align: center;
+        }
+
+        .tag {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid;
+        }
+
+        .tag-ok { color: #00ff88; border-color: #00ff8855; }
+        .tag-warn { color: #ffaa00; border-color: #ffaa0055; }
+        .tag-alert { color: #ff0055; border-color: #ff005555; }
+
+        .node-latency {
+            text-align: right;
+            color: #00ff8855;
+            font-size: 0.75rem;
+        }
+
+        .terminal-footer {
+            padding: 2rem 3rem;
+            border-top: 1px solid #00ff8822;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: #00ff8833;
+        }
+
+        @media (max-width: 768px) {
+            .hero-terminal { padding: 3rem 1.5rem; }
+            .hero-terminal h1 { font-size: 2rem; }
+            .system-bar { grid-template-columns: 1fr 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .module { border-right: none; }
+            .data-feed { padding: 2rem 1.5rem; overflow-x: auto; }
+            .node-row { min-width: 600px; }
+            .boot-header, .terminal-footer { padding: 1rem 1.5rem; }
+            .section-header { padding-left: 1.5rem; }
+            .input-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="boot-header">
+        <span>loungelink@sys:~$ ./dashboard --live <span class="blink">_</span></span>
+        <span>SYS_UPTIME: 847:22:03 | NODE_COUNT: 1,247 | PING: 12ms</span>
+    </div>
+
+    <section class="hero-terminal">
+        <div class="cmd-prompt">root@loungelink:<span class="path">~/network</span>$ cat welcome.txt</div>
+        <h1>LOUNGE<br><span class="glitch">LINK_</span></h1>
+        <div class="ascii-line">═══════════════════════════════════════════════════════════════════</div>
+        <p class="hero-desc">
+            Priority Pass gives you a card. We give you <span class="highlight">real-time data feeds</span> —
+            live occupancy streams, menu payloads, queue position tracking, and
+            <span class="highlight">peer-to-peer solo traveler matching</span> across 1,247 lounge nodes worldwide.
+        </p>
+        <div class="input-group">
+            <input type="text" class="input-field" placeholder="enter_email@domain.com">
+            <button class="input-btn">Execute</button>
+        </div>
+    </section>
+
+    <div class="system-bar">
+        <div class="sys-item">
+            <div class="sys-label">Network Status</div>
+            <div class="sys-value">OPERATIONAL</div>
+        </div>
+        <div class="sys-item">
+            <div class="sys-label">Active Nodes</div>
+            <div class="sys-value">1,247</div>
+        </div>
+        <div class="sys-item">
+            <div class="sys-label">Queue Depth</div>
+            <div class="sys-value warn">3,891</div>
+        </div>
+        <div class="sys-item">
+            <div class="sys-label">Avg Latency</div>
+            <div class="sys-value">12ms</div>
+        </div>
+    </div>
+
+    <div class="section-header"><span class="hex">[0x01]</span> ACTIVE MODULES</div>
+
+    <section class="modules-grid">
+        <div class="module" data-id="MOD_001">
+            <div class="module-status status-online">Online</div>
+            <h3>Capacity Stream</h3>
+            <p>Real-time occupancy telemetry from IoT sensors deployed across all lounge nodes. Updates every 30 seconds. Never walk into a full lounge again.</p>
+        </div>
+        <div class="module" data-id="MOD_002">
+            <div class="module-status status-online">Online</div>
+            <h3>Queue Engine</h3>
+            <p>Distributed waitlist system. Remote enqueue from any terminal position. Push notifications on position change. Average wait-to-seat: 8.4 minutes.</p>
+        </div>
+        <div class="module" data-id="MOD_003">
+            <div class="module-status status-online">Online</div>
+            <h3>Menu Payload</h3>
+            <p>Structured data feed of current food and beverage offerings. Updated on kitchen rotation. Filterable by dietary tags: vegan, halal, gluten-free.</p>
+        </div>
+        <div class="module" data-id="MOD_004">
+            <div class="module-status status-online">Online</div>
+            <h3>Peer Match</h3>
+            <p>Opt-in solo traveler pairing. Matching algorithm considers flight timing, language, and shared interests. 73% of matched pairs report positive interactions.</p>
+        </div>
+    </section>
+
+    <section class="data-feed">
+        <div class="feed-title">
+            <span class="live-dot"></span>
+            <span>LIVE NODE STATUS — TOP PRIORITY FEED</span>
+        </div>
+        <div class="node-row">
+            <span>Node ID</span>
+            <span>Lounge</span>
+            <span>Capacity</span>
+            <span>Status</span>
+            <span>Ping</span>
+        </div>
+        <div class="node-row">
+            <span class="node-id">#ORD-03</span>
+            <span class="node-name">The Centurion Lounge</span>
+            <span class="node-bar">
+                <span class="bar-track"><span class="bar-fill" style="width:38%"></span></span>
+                <span class="bar-pct">38%</span>
+            </span>
+            <span class="node-status"><span class="tag tag-ok">OK</span></span>
+            <span class="node-latency">8ms</span>
+        </div>
+        <div class="node-row">
+            <span class="node-id">#LAX-TB</span>
+            <span class="node-name">Plaza Premium</span>
+            <span class="node-bar">
+                <span class="bar-track"><span class="bar-fill warn" style="width:72%"></span></span>
+                <span class="bar-pct">72%</span>
+            </span>
+            <span class="node-status"><span class="tag tag-warn">WARN</span></span>
+            <span class="node-latency">14ms</span>
+        </div>
+        <div class="node-row">
+            <span class="node-id">#JFK-04</span>
+            <span class="node-name">SkyTeam Lounge</span>
+            <span class="node-bar">
+                <span class="bar-track"><span class="bar-fill critical" style="width:94%"></span></span>
+                <span class="bar-pct">94%</span>
+            </span>
+            <span class="node-status"><span class="tag tag-alert">ALERT</span></span>
+            <span class="node-latency">22ms</span>
+        </div>
+    </section>
+
+    <div class="terminal-footer">
+        <span>&copy; 2026 LOUNGELINK SYSTEMS — BRIAN SONG</span>
+        <span>BUILD v6.0.1 | PID 48291 | MEM 128MB</span>
+    </div>
+</body>
+</html>
