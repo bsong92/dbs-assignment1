@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #faf9f6;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 6rem;
+            border-bottom: 1px solid #e8e6e1;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav ul li a {
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        nav ul li a:hover {
+            color: #1a1a1a;
+        }
+
+        .hero {
+            padding: 10rem 6rem 6rem;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+        }
+
+        .hero p {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1.05rem;
+            color: #777;
+            line-height: 1.8;
+            max-width: 500px;
+            margin-bottom: 3rem;
+        }
+
+        .cta-link {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 4px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .cta-link:hover {
+            color: #888;
+            border-color: #888;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: #ccc;
+            margin: 6rem 0 6rem 6rem;
+        }
+
+        .features-section {
+            padding: 0 6rem 8rem;
+        }
+
+        .features-section .label {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-bottom: 3rem;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 700px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-item p {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.9rem;
+            color: #999;
+            line-height: 1.7;
+        }
+
+        .status-section {
+            background: #fff;
+            border-top: 1px solid #e8e6e1;
+            border-bottom: 1px solid #e8e6e1;
+            padding: 5rem 6rem;
+        }
+
+        .status-section .label {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-bottom: 3rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #f0eeea;
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .lounge-info h4 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+        }
+
+        .lounge-info span {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .lounge-meta {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .dot-green { background: #4a9; }
+        .dot-amber { background: #c90; }
+        .dot-red { background: #c44; }
+
+        footer {
+            padding: 4rem 6rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+            color: #bbb;
+        }
+
+        @media (max-width: 768px) {
+            nav, .hero, .features-section, .status-section, footer {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+            .hero h1 { font-size: 2.5rem; }
+            .features-list { grid-template-columns: 1fr; gap: 2.5rem; }
+            .divider { margin-left: 2rem; }
+            .lounge-meta { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">LoungeLink</div>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#status">Status</a></li>
+            <li><a href="#">Join</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>The lounge experience, <em>reimagined</em></h1>
+        <p>Real-time capacity, live menus, and a community of solo travelers — everything your lounge card should have told you.</p>
+        <a href="#" class="cta-link">Request early access</a>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="features-section" id="features">
+        <div class="label">What we do differently</div>
+        <div class="features-list">
+            <div class="feature-item">
+                <h3>Live capacity</h3>
+                <p>See how full a lounge is before you commit to the walk across the terminal.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Remote waitlist</h3>
+                <p>Queue from anywhere. We'll notify you when a spot opens so you can keep working at your gate.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Today's menu</h3>
+                <p>Know what's being served — hot meals, light bites, cocktails — updated in real time.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Solo tables</h3>
+                <p>Opt in to share a table with another solo traveler. Good conversations start at airport lounges.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="status-section" id="status">
+        <div class="label">Live now</div>
+        <div class="status-row">
+            <div class="lounge-info">
+                <h4>The Centurion Lounge</h4>
+                <span>ORD &middot; Terminal 3</span>
+            </div>
+            <div class="lounge-meta">
+                <span><span class="dot dot-green"></span>38% capacity</span>
+                <span>No wait</span>
+            </div>
+        </div>
+        <div class="status-row">
+            <div class="lounge-info">
+                <h4>Plaza Premium</h4>
+                <span>LAX &middot; Tom Bradley International</span>
+            </div>
+            <div class="lounge-meta">
+                <span><span class="dot dot-amber"></span>72% capacity</span>
+                <span>~10 min</span>
+            </div>
+        </div>
+        <div class="status-row">
+            <div class="lounge-info">
+                <h4>SkyTeam Lounge</h4>
+                <span>JFK &middot; Terminal 4</span>
+            </div>
+            <div class="lounge-meta">
+                <span><span class="dot dot-red"></span>94% capacity</span>
+                <span>~25 min</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink &middot; Brian Song
+    </footer>
+</body>
+</html>
