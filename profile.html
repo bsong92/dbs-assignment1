@@ -5,92 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoungeLink — Profile</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@300;400;500;600&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #111116; color: #e4e4e7; min-height: 100vh; }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: #f4ece1;
+            color: #2c2418;
+            min-height: 100vh;
+        }
 
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 2rem; border-bottom: 1px solid #1e1e24;
-            position: sticky; top: 0; background: #111116; z-index: 100;
+            padding: 1.25rem 3rem; border-bottom: 2px solid #d4c4a8;
+            position: sticky; top: 0; background: #f4ece1; z-index: 100;
         }
-        .logo { font-size: 1.1rem; font-weight: 700; }
-        .logo span { color: #818cf8; }
-        .nav-pills { display: flex; gap: 0.4rem; }
-        .nav-pill {
-            font-size: 0.75rem; color: #52525b; background: #1e1e24;
-            padding: 0.4rem 0.9rem; border-radius: 8px; font-weight: 500;
-            text-decoration: none; transition: all 0.2s;
-        }
-        .nav-pill:hover { color: #a1a1aa; background: #27272e; }
-        .nav-pill.active { color: #e4e4e7; background: #27272e; }
 
-        .profile-section { max-width: 700px; margin: 0 auto; padding: 2rem; }
+        .logo { font-family: 'Abril Fatface', serif; font-size: 1.4rem; color: #8b3a3a; }
+
+        .nav-tabs { display: flex; gap: 0; }
+
+        .nav-tab {
+            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            color: #8b6f4e; padding: 0.5rem 1.3rem; font-weight: 500;
+            text-decoration: none; border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover { color: #8b3a3a; }
+        .nav-tab.active { color: #8b3a3a; border-bottom-color: #8b3a3a; }
+
+        .profile-section { max-width: 700px; margin: 0 auto; padding: 2.5rem 2rem; }
 
         .profile-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; }
+
         .profile-avatar {
             width: 72px; height: 72px; border-radius: 50%;
-            background: linear-gradient(135deg, #818cf8, #c084fc);
+            background: linear-gradient(135deg, #8b3a3a, #c9a96e);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem; color: #fff; font-weight: 800;
+            font-size: 1.6rem; color: #fff; font-weight: 600;
+            font-family: 'Work Sans', sans-serif;
         }
-        .profile-name { font-size: 1.4rem; font-weight: 800; }
-        .profile-handle { font-size: 0.8rem; color: #52525b; }
-        .profile-bio { font-size: 0.85rem; color: #71717a; margin-top: 0.3rem; }
+
+        .profile-name { font-family: 'Abril Fatface', serif; font-size: 1.4rem; font-weight: 400; }
+        .profile-handle { font-size: 0.8rem; color: #8b6f4e; font-weight: 300; }
+        .profile-bio { font-size: 0.85rem; color: #7a6b5a; margin-top: 0.3rem; font-weight: 300; }
 
         .profile-stats {
             display: flex; gap: 2rem; padding: 1.25rem;
-            background: #18181d; border: 1px solid #27272e; border-radius: 12px; margin-bottom: 1.5rem;
+            background: #fffdf8; border: 1px solid #d4c4a8; border-radius: 10px; margin-bottom: 1.5rem;
         }
+
         .p-stat { text-align: center; flex: 1; }
-        .p-stat-num { font-size: 1.3rem; font-weight: 800; color: #818cf8; }
-        .p-stat-label { font-size: 0.68rem; color: #52525b; margin-top: 0.15rem; }
+        .p-stat-num { font-family: 'Abril Fatface', serif; font-size: 1.3rem; color: #8b3a3a; }
+        .p-stat-label { font-size: 0.68rem; color: #8b6f4e; margin-top: 0.15rem; font-weight: 300; }
 
         .p-section-title {
-            font-size: 0.65rem; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: #3f3f46; margin: 1.5rem 0 0.75rem;
+            font-size: 0.6rem; font-weight: 600; letter-spacing: 2px;
+            text-transform: uppercase; color: #b0a08a; margin: 1.5rem 0 0.75rem;
         }
 
         .waitlist-card {
-            background: #1e1b4b; border: 1px solid #312e81;
-            border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+            background: #faf0f0; border: 1px solid #e0c4c4;
+            border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
         }
+
         .wl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .wl-badge { font-size: 0.6rem; font-weight: 600; background: #818cf8; color: #111116; padding: 0.2rem 0.6rem; border-radius: 4px; }
-        .wl-lounge { font-size: 0.95rem; font-weight: 700; }
-        .wl-details { font-size: 0.78rem; color: #818cf8; }
-        .wl-meta { font-size: 0.72rem; color: #6366f1; margin-top: 0.4rem; }
+
+        .wl-badge {
+            font-size: 0.6rem; font-weight: 600;
+            background: #8b3a3a; color: #f4ece1;
+            padding: 0.2rem 0.6rem; border-radius: 4px;
+        }
+
+        .wl-lounge { font-family: 'Abril Fatface', serif; font-size: 0.95rem; font-weight: 400; }
+        .wl-details { font-size: 0.78rem; color: #8b3a3a; }
+        .wl-meta { font-size: 0.72rem; color: #8b6f4e; margin-top: 0.4rem; }
+
         .wl-progress { margin-top: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
-        .wl-bar { flex: 1; height: 4px; background: #27272e; border-radius: 2px; overflow: hidden; }
-        .wl-fill { height: 100%; background: #818cf8; border-radius: 2px; }
-        .wl-pos { font-size: 0.72rem; font-weight: 600; color: #a5b4fc; white-space: nowrap; }
+        .wl-bar { flex: 1; height: 4px; background: #e8d8d8; border-radius: 2px; overflow: hidden; }
+        .wl-fill { height: 100%; background: #8b3a3a; border-radius: 2px; }
+        .wl-pos { font-size: 0.72rem; font-weight: 600; color: #8b3a3a; white-space: nowrap; }
 
         .profile-hobbies { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
-        .ph-tag { font-size: 0.72rem; background: #27272e; color: #a1a1aa; padding: 0.3rem 0.7rem; border-radius: 6px; font-weight: 500; }
+
+        .ph-tag {
+            font-size: 0.72rem; background: #fffdf8; border: 1px solid #d4c4a8;
+            color: #5a4a3a; padding: 0.3rem 0.7rem; border-radius: 50px; font-weight: 400;
+        }
 
         .lounge-list-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0.85rem 1rem; background: #18181d; border: 1px solid #27272e;
-            border-radius: 10px; margin-bottom: 0.5rem;
+            padding: 0.85rem 1rem; background: #fffdf8; border: 1px solid #d4c4a8;
+            border-radius: 8px; margin-bottom: 0.5rem;
         }
+
         .lli-left { display: flex; align-items: center; gap: 0.75rem; }
+
         .lli-icon {
             width: 36px; height: 36px; border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; font-weight: 700;
+            font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
         }
-        .lli-icon-green { background: #052e16; color: #4ade80; }
-        .lli-icon-blue { background: #1e1b4b; color: #818cf8; }
-        .lli-icon-amber { background: #422006; color: #fbbf24; }
-        .lli-name { font-size: 0.85rem; font-weight: 600; }
-        .lli-sub { font-size: 0.68rem; color: #52525b; }
-        .lli-date { font-size: 0.68rem; color: #3f3f46; }
-        .lli-rating { font-size: 0.72rem; color: #fbbf24; }
-        .fav-star { color: #fbbf24; font-size: 0.85rem; }
 
-        footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: #3f3f46; border-top: 1px solid #1e1e24; }
+        .lli-icon-green { background: #e8f0e8; color: #2e5a3a; }
+        .lli-icon-blue { background: #faf0f0; color: #8b3a3a; }
+        .lli-icon-amber { background: #f0e8d8; color: #7a5a2e; }
+
+        .lli-name { font-size: 0.85rem; font-weight: 500; }
+        .lli-sub { font-size: 0.68rem; color: #8b6f4e; font-weight: 300; }
+        .lli-date { font-size: 0.68rem; color: #b0a08a; }
+        .lli-rating { font-size: 0.72rem; color: #c9a96e; font-weight: 600; }
+        .fav-star { color: #c9a96e; font-size: 0.85rem; }
+
+        footer {
+            text-align: center; padding: 2.5rem 2rem;
+            font-size: 0.7rem; color: #b0a08a;
+        }
 
         @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
             .profile-header { flex-direction: column; text-align: center; }
             .profile-stats { flex-wrap: wrap; }
         }
@@ -98,11 +132,11 @@
 </head>
 <body>
     <nav>
-        <div class="logo">Lounge<span>Link</span></div>
-        <div class="nav-pills">
-            <a href="v12.html" class="nav-pill">Map</a>
-            <a href="v12.html#lounges" class="nav-pill">Lounges</a>
-            <a href="profile.html" class="nav-pill active">Profile</a>
+        <div class="logo">LoungeLink</div>
+        <div class="nav-tabs">
+            <a href="v15.html" class="nav-tab">About</a>
+            <a href="v15.html" class="nav-tab">Lounges</a>
+            <a href="profile.html" class="nav-tab active">Profile</a>
         </div>
     </nav>
 
@@ -170,6 +204,10 @@
         <div class="lounge-list-item">
             <div class="lli-left"><div class="lli-icon lli-icon-amber">ICN</div><div><div class="lli-name">Asiana Lounge</div><div class="lli-sub">Seoul Incheon &middot; Terminal 1</div></div></div>
             <div class="lli-date">Mar 14</div>
+        </div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-blue">LAX</div><div><div class="lli-name">Star Alliance Lounge</div><div class="lli-sub">Los Angeles &middot; Tom Bradley Intl</div></div></div>
+            <div class="lli-date">Mar 1</div>
         </div>
 
         <div class="p-section-title">Saved for Later</div>

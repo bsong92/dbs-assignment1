@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v16</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@300;400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: #f4ece1;
+            color: #2c2418;
+            min-height: 100vh;
+        }
+
+        .tab-r { display: none; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 3rem;
+            border-bottom: 2px solid #d4c4a8;
+            position: sticky;
+            top: 0;
+            background: #f4ece1;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.4rem;
+            color: #8b3a3a;
+        }
+
+        .nav-tabs { display: flex; gap: 0; }
+
+        .nav-tab {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            padding: 0.5rem 1.3rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tab:hover { color: #8b3a3a; }
+
+        #tab-about:checked ~ nav .tab-about-l,
+        #tab-lounges:checked ~ nav .tab-lounges-l { color: #8b3a3a; border-bottom-color: #8b3a3a; }
+
+        #tab-about:checked ~ .page .view-about { display: block; }
+        #tab-lounges:checked ~ .page .view-lounges { display: block; }
+
+        .view-about, .view-lounges { display: none; }
+
+        /* ====== ABOUT ====== */
+        .hero {
+            text-align: center;
+            padding: 7rem 2rem 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            border: 2px solid #8b6f4e;
+            border-radius: 50px;
+            padding: 0.35rem 1.3rem;
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-family: 'Abril Fatface', serif;
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
+            color: #2c2418;
+        }
+
+        .hero h1 .script {
+            display: block;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 7px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            margin-top: 0.5rem;
+        }
+
+        .hero-divider { width: 50px; height: 2px; background: #8b3a3a; margin: 2rem auto; }
+
+        .hero p {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #7a6b5a;
+            max-width: 480px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #8b3a3a;
+            color: #f4ece1;
+            padding: 0.85rem 2.5rem;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover { background: #6b2a2a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,58,58,0.15); }
+
+        .dest-label {
+            text-align: center;
+            margin: 3rem 0 2.5rem;
+            position: relative;
+        }
+
+        .dest-label span {
+            background: #f4ece1;
+            padding: 0 1.5rem;
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dest-label::before {
+            content: ''; position: absolute; top: 50%; left: 10%; right: 10%;
+            height: 1px; background: #d4c4a8;
+        }
+
+        .features-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            padding: 0 3rem;
+        }
+
+        .feature-stamp {
+            text-align: center;
+            padding: 2rem 1.2rem;
+            border: 1px dashed #c4b498;
+            margin: -0.5px;
+        }
+
+        .feature-stamp .icon-circle {
+            width: 50px; height: 50px; border-radius: 50%;
+            border: 2px solid #8b3a3a;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem;
+            font-family: 'Abril Fatface', serif;
+            font-size: 1rem;
+            color: #8b3a3a;
+        }
+
+        .feature-stamp h3 {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-stamp p {
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: #8b6f4e;
+            line-height: 1.5;
+        }
+
+        .closing-quote {
+            text-align: center;
+            padding: 2rem 2rem 5rem;
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.3rem;
+            color: #8b6f4e;
+            font-style: italic;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* ====== LOUNGES ====== */
+        .airport-header {
+            padding: 2.5rem 3rem 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .airport-name {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #8b3a3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .airport-title {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+        }
+
+        .airport-sub { font-size: 0.8rem; color: #8b6f4e; font-weight: 300; }
+
+        .your-location {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 1px solid #c4b498;
+            padding: 0.35rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #8b6f4e;
+            margin-top: 0.75rem;
+            font-weight: 400;
+        }
+
+        .loc-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #8b3a3a;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139,58,58,0.3); }
+            50% { box-shadow: 0 0 0 5px rgba(139,58,58,0); }
+        }
+
+        /* Realistic ORD Map */
+        .map-section { max-width: 960px; margin: 1.5rem auto 0; padding: 0 3rem; }
+
+        .map-container {
+            background: #efe5d6;
+            border: 2px solid #d4c4a8;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            height: 360px;
+            overflow: hidden;
+        }
+
+        .map-title {
+            font-size: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #b0a08a;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ORD Layout — centered. T1 west, T2 center, T3 east, T5 separate */
+        .terminal { position: absolute; border-radius: 4px; }
+
+        /* Terminal 1 - main hall */
+        .t1-hall { width: 100px; height: 30px; top: 120px; left: 100px; background: #d4c4a8; border: 1px solid #c4b498; }
+        /* Concourse B */
+        .t1-b { width: 22px; height: 100px; top: 45px; left: 115px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+        /* Concourse C */
+        .t1-c { width: 22px; height: 110px; top: 35px; left: 165px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+
+        /* Terminal 2 - center */
+        .t2-hall { width: 80px; height: 25px; top: 180px; left: 260px; background: #d4c4a8; border: 1px solid #c4b498; }
+        /* Concourse E */
+        .t2-e { width: 22px; height: 80px; top: 110px; left: 270px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+        /* Concourse F */
+        .t2-f { width: 22px; height: 90px; top: 100px; left: 310px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+
+        /* Terminal 3 - right side */
+        .t3-hall { width: 110px; height: 25px; top: 180px; left: 410px; background: #d4c4a8; border: 1px solid #c4b498; }
+        /* Concourse G */
+        .t3-g { width: 22px; height: 80px; top: 110px; left: 410px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+        /* Concourse H */
+        .t3-h { width: 22px; height: 100px; top: 90px; left: 450px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+        /* Concourse K */
+        .t3-k { width: 22px; height: 90px; top: 100px; left: 490px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 8px 8px 0 0; }
+
+        /* Terminal 5 - international, separate west */
+        .t5 { width: 60px; height: 55px; top: 260px; left: 580px; background: #d4c4a8; border: 1px solid #c4b498; border-radius: 6px; }
+
+        /* ATS People Mover - connects T1, T2, T3 */
+        .ats-line {
+            position: absolute;
+            top: 215px;
+            left: 130px;
+            width: 390px;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, #8b3a3a55 0px, #8b3a3a55 6px, transparent 6px, transparent 10px);
+        }
+
+        /* Bus route T3 -> T5 */
+        .bus-line {
+            position: absolute;
+            top: 220px;
+            left: 520px;
+            width: 80px;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, #8b6f4e55 0px, #8b6f4e55 4px, transparent 4px, transparent 8px);
+            transform: rotate(25deg);
+            transform-origin: left;
+        }
+
+        /* Terminal labels */
+        .tl { position: absolute; font-size: 0.5rem; font-weight: 600; color: #8b6f4e; letter-spacing: 1px; text-transform: uppercase; }
+        .tl-1 { top: 127px; left: 108px; } .tl-2 { top: 183px; left: 280px; } .tl-3 { top: 183px; left: 440px; } .tl-5 { top: 268px; left: 590px; }
+
+        /* Concourse labels */
+        .cl { position: absolute; font-size: 0.42rem; font-weight: 500; color: #b0a08a; letter-spacing: 0.5px; }
+        .cl-b { top: 38px; left: 120px; } .cl-c { top: 28px; left: 170px; }
+        .cl-e { top: 104px; left: 274px; } .cl-f { top: 94px; left: 314px; }
+        .cl-g { top: 104px; left: 414px; } .cl-h { top: 82px; left: 454px; } .cl-k { top: 94px; left: 494px; }
+
+        .ats-label {
+            position: absolute; top: 222px; left: 280px;
+            font-size: 0.42rem; color: #8b3a3a88; letter-spacing: 2px;
+            text-transform: uppercase; font-weight: 500;
+            background: #efe5d6; padding: 0 0.4rem;
+        }
+
+        .bus-label {
+            position: absolute; top: 240px; left: 540px;
+            font-size: 0.38rem; color: #8b6f4e88; letter-spacing: 1px;
+            text-transform: uppercase; font-weight: 500;
+        }
+
+        /* Lounge markers on map */
+        .mk { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; z-index: 10; }
+        .mk-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid; }
+        .mk-green .mk-dot { border-color: #2e5a3a; background: #2e5a3a44; }
+        .mk-amber .mk-dot { border-color: #8b6f4e; background: #8b6f4e44; }
+        .mk-red .mk-dot { border-color: #8b3a3a; background: #8b3a3a44; }
+        .mk-name { font-size: 0.48rem; font-weight: 600; color: #5a4a3a; white-space: nowrap; }
+        .mk-time { font-size: 0.42rem; color: #8b6f4e; white-space: nowrap; }
+
+        /* Centurion at T3 Concourse K */
+        .mk-centurion { top: 100px; left: 510px; }
+        /* United Club at T1 Concourse C */
+        .mk-united { top: 35px; left: 190px; }
+        /* Admirals Club at T3 Concourse H — label shifted up to avoid overlap */
+        .mk-admirals { top: 68px; left: 428px; }
+
+        /* You marker at T2 Concourse F */
+        .you-mk { position: absolute; top: 98px; left: 330px; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; z-index: 20; }
+        .you-dot { width: 12px; height: 12px; border-radius: 50%; background: #8b3a3a; border: 2px solid #f4ece1; box-shadow: 0 0 0 2px rgba(139,58,58,0.3); animation: pulse 2s infinite; }
+        .you-lbl { font-size: 0.5rem; font-weight: 600; color: #8b3a3a; }
+
+        /* Stamp decorations on map */
+        .map-stamp {
+            position: absolute; border: 2px solid rgba(139,58,58,0.1);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-align: center; font-size: 0.38rem; font-weight: 600; color: rgba(139,58,58,0.12);
+            letter-spacing: 1px; text-transform: uppercase; line-height: 1.2;
+            transform: rotate(-12deg);
+        }
+        .stamp-1 { width: 60px; height: 60px; bottom: 25px; left: 40px; }
+        .stamp-2 { width: 50px; height: 50px; bottom: 20px; right: 40px; }
+
+        /* ====== Lounge cards ====== */
+        .lounges-section { max-width: 960px; margin: 1.5rem auto 0; padding: 0 3rem 3rem; }
+
+        .section-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .section-bar h2 { font-family: 'Abril Fatface', serif; font-size: 1.2rem; font-weight: 400; }
+        .live-tag { display: flex; align-items: center; gap: 0.4rem; font-size: 0.65rem; color: #8b6f4e; font-weight: 400; }
+        .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #2e5a3a; animation: pulse 2s infinite; }
+
+        .lounge { background: #fffdf8; border: 1px solid #d4c4a8; border-radius: 10px; margin-bottom: 0.75rem; overflow: hidden; }
+        .lt { display: none; }
+
+        .lh {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.15rem 1.5rem;
+            cursor: pointer;
+        }
+
+        .ln { font-family: 'Abril Fatface', serif; font-size: 1rem; font-weight: 400; margin-bottom: 0.1rem; }
+        .ll { font-size: 0.7rem; color: #8b6f4e; font-weight: 300; }
+        .arr { color: #c4b498; font-size: 0.55rem; transition: transform 0.3s; margin-left: 0.25rem; }
+        .lt:checked ~ .lh .arr { transform: rotate(180deg); }
+
+        .travel-info { text-align: center; }
+        .travel-time { font-size: 0.85rem; font-weight: 600; color: #8b3a3a; }
+        .travel-method { font-size: 0.55rem; color: #8b6f4e; font-weight: 300; }
+
+        .cap-area { text-align: right; }
+        .cap-num { font-size: 1.1rem; font-weight: 600; }
+        .cap-num .of { color: #d4c4a8; font-weight: 300; } .cap-num .tot { color: #8b6f4e; font-weight: 300; }
+        .cbar { width: 80px; height: 4px; background: #efe5d6; border-radius: 2px; overflow: hidden; margin-top: 0.3rem; margin-left: auto; }
+        .cfill { height: 100%; border-radius: 2px; }
+        .cg { background: #2e5a3a; } .ca { background: #8b6f4e; } .cr { background: #8b3a3a; }
+
+        .st-area { text-align: right; min-width: 90px; }
+        .badge { display: inline-block; font-size: 0.6rem; font-weight: 500; padding: 0.2rem 0.65rem; border-radius: 4px; }
+        .b-open { background: #e8f0e8; color: #2e5a3a; } .b-busy { background: #f0e8d8; color: #7a5a2e; } .b-full { background: #f0e0e0; color: #8b3a3a; }
+        .wait-info { font-size: 0.65rem; color: #8b6f4e; margin-top: 0.2rem; }
+
+        .lb { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+        .lt:checked ~ .lb { max-height: 1400px; }
+        .li { padding: 0 1.5rem 1.5rem; border-top: 1px solid #efe5d6; }
+
+        .dl { font-size: 0.55rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #b0a08a; margin: 1.25rem 0 0.75rem; }
+
+        /* Join */
+        .join-box { margin-top: 0.75rem; padding: 1rem; background: #f9f3ea; border: 1px dashed #d4c4a8; border-radius: 8px; }
+        .join-title { font-family: 'Abril Fatface', serif; font-size: 0.95rem; font-weight: 400; margin-bottom: 0.75rem; }
+        .join-options { display: flex; gap: 0.6rem; margin-bottom: 0.75rem; }
+        .join-radio { display: none; }
+        .join-option {
+            flex: 1; background: #fffdf8; border: 1px solid #d4c4a8;
+            border-radius: 8px; padding: 0.75rem; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .join-option:hover { border-color: #8b3a3a44; }
+        .join-radio:checked + .join-option { border-color: #8b3a3a; background: #faf0f0; }
+        .join-option-name { font-size: 0.75rem; font-weight: 600; margin-bottom: 0.15rem; color: #2c2418; }
+        .join-option-desc { font-size: 0.6rem; color: #8b6f4e; line-height: 1.4; }
+        .join-bottom { display: flex; justify-content: space-between; align-items: center; }
+        .join-proximity { font-size: 0.65rem; color: #8b6f4e; }
+        .join-proximity .ok { color: #2e5a3a; font-weight: 600; }
+        .join-btn {
+            background: #8b3a3a; color: #f4ece1; padding: 0.5rem 1.5rem;
+            border: none; border-radius: 4px; font-family: 'Work Sans', sans-serif;
+            font-size: 0.7rem; font-weight: 500; cursor: pointer;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .join-btn:hover { background: #6b2a2a; }
+
+        /* Food */
+        .food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.6rem; }
+        .fc { border-radius: 8px; overflow: hidden; border: 1px solid #d4c4a8; background: #fffdf8; transition: transform 0.15s; }
+        .fc:hover { transform: scale(1.02); }
+        .fp { height: 80px; background-size: cover; background-position: center; position: relative; }
+        .fcat { position: absolute; bottom: 4px; left: 4px; background: rgba(44,36,24,0.7); color: #f4ece1; font-size: 0.45rem; font-weight: 500; padding: 0.12rem 0.35rem; border-radius: 3px; letter-spacing: 1px; text-transform: uppercase; }
+        .ft { padding: 0.45rem 0.55rem; }
+        .ft .fn { font-size: 0.75rem; font-weight: 500; }
+        .ft .fd { font-size: 0.6rem; color: #8b6f4e; font-weight: 300; }
+
+        .info-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .iv { font-size: 0.95rem; font-weight: 600; }
+        .il { font-size: 0.6rem; color: #8b6f4e; font-weight: 300; }
+
+        /* Solo */
+        .solo-grid { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .solo-card { position: relative; }
+        .solo-check { display: none; }
+        .sc {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            background: #f9f3ea; border: 1px solid #d4c4a8;
+            padding: 0.3rem 0.7rem; border-radius: 50px;
+            font-size: 0.7rem; color: #8b6f4e; font-weight: 400;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .sc:hover { border-color: #8b3a3a; color: #8b3a3a; }
+        .sc .av {
+            width: 18px; height: 18px; border-radius: 50%;
+            background: #8b3a3a22; display: flex; align-items: center; justify-content: center;
+            font-size: 0.45rem; color: #8b3a3a; font-weight: 600;
+        }
+
+        .sp {
+            display: none; position: absolute; bottom: calc(100% + 10px); left: 0;
+            background: #fffdf8; border: 1px solid #d4c4a8; border-radius: 12px;
+            padding: 1.15rem; width: 260px; box-shadow: 0 8px 30px rgba(44,36,24,0.12); z-index: 50;
+        }
+        .solo-check:checked + .sc + .sp { display: block; }
+        .solo-check:checked + .sc { background: #8b3a3a; color: #f4ece1; border-color: #8b3a3a; }
+        .solo-check:checked + .sc .av { background: rgba(244,236,225,0.3); color: #f4ece1; }
+
+        .sph { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+        .spa { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #8b3a3a, #c9a96e); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #fff; font-weight: 600; }
+        .spn { font-size: 0.85rem; font-weight: 600; }
+        .spd { font-size: 0.65rem; color: #8b6f4e; }
+        .spg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+        .spg .spl { font-size: 0.55rem; color: #b0a08a; margin-bottom: 0.05rem; }
+        .spg .spv { font-size: 0.68rem; font-weight: 500; color: #5a4a3a; }
+        .sph-tags { display: flex; flex-wrap: wrap; gap: 0.2rem; margin-top: 0.5rem; }
+        .sph-tag { font-size: 0.55rem; background: #f0e8d8; color: #8b6f4e; padding: 0.18rem 0.4rem; border-radius: 3px; font-weight: 400; }
+
+        footer {
+            text-align: center; padding: 2.5rem 2rem;
+            font-size: 0.7rem; color: #b0a08a;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .features-row { grid-template-columns: 1fr 1fr; padding: 0 1.5rem; }
+            .map-container { height: auto; min-height: 200px; }
+            .terminal, .ats-line, .bus-line, .tl, .cl, .ats-label, .bus-label, .mk, .you-mk, .map-stamp { display: none; }
+            .map-container { display: none; }
+            .airport-header, .lounges-section, .map-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .lh { grid-template-columns: 1fr; gap: 0.75rem; }
+            .cap-area, .st-area, .travel-info { text-align: left; }
+            .cbar { margin-left: 0; }
+            .food-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+            .join-options { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <input type="radio" name="tab" id="tab-about" class="tab-r" checked>
+    <input type="radio" name="tab" id="tab-lounges" class="tab-r">
+
+    <nav>
+        <div class="logo">LoungeLink</div>
+        <div class="nav-tabs">
+            <label for="tab-about" class="nav-tab tab-about-l">About</label>
+            <label for="tab-lounges" class="nav-tab tab-lounges-l">Lounges</label>
+            <a href="profile.html" class="nav-tab">Profile</a>
+        </div>
+    </nav>
+
+    <div class="page">
+
+        <!-- ====== ABOUT ====== -->
+        <div class="view-about">
+            <section class="hero">
+                <div class="hero-badge">Est. 2026 &middot; For the Modern Traveler</div>
+                <h1>
+                    Your Lounge,<br>Revealed
+                    <span class="script">Before You Even Board</span>
+                </h1>
+                <div class="hero-divider"></div>
+                <p>Live capacity, real-time menus, waitlist alerts, and a way to meet fellow solo travelers — the lounge companion that Priority Pass forgot to build.</p>
+                <label for="tab-lounges" class="cta-btn">Explore Lounges</label>
+            </section>
+
+            <div class="dest-label"><span>What We Offer</span></div>
+
+            <section class="features-row">
+                <div class="feature-stamp">
+                    <div class="icon-circle">I</div>
+                    <h3>Capacity</h3>
+                    <p>Real-time occupancy so you never arrive to a full house</p>
+                </div>
+                <div class="feature-stamp">
+                    <div class="icon-circle">II</div>
+                    <h3>Waitlist</h3>
+                    <p>Queue remotely and get notified when your spot opens</p>
+                </div>
+                <div class="feature-stamp">
+                    <div class="icon-circle">III</div>
+                    <h3>Menus</h3>
+                    <p>See exactly what's being served right now, updated live</p>
+                </div>
+                <div class="feature-stamp">
+                    <div class="icon-circle">IV</div>
+                    <h3>Connect</h3>
+                    <p>Share a table with another solo traveler between flights</p>
+                </div>
+            </section>
+
+            <p class="closing-quote">The best lounge experience begins before you walk through the door.</p>
+        </div>
+
+        <!-- ====== LOUNGES ====== -->
+        <div class="view-lounges">
+            <div class="airport-header">
+                <div class="airport-name">You're at</div>
+                <div class="airport-title">Chicago O'Hare International</div>
+                <div class="airport-sub">ORD &middot; 3 lounges nearby</div>
+                <div class="your-location"><span class="loc-dot"></span> Terminal 2, Concourse F, Gate F8</div>
+            </div>
+
+            <div class="map-section">
+                <div class="map-container">
+                    <div class="map-title">ORD Terminal Map</div>
+
+                    <!-- Terminal structures -->
+                    <div class="terminal t1-hall"></div>
+                    <div class="terminal t1-b"></div>
+                    <div class="terminal t1-c"></div>
+                    <div class="terminal t2-hall"></div>
+                    <div class="terminal t2-e"></div>
+                    <div class="terminal t2-f"></div>
+                    <div class="terminal t3-hall"></div>
+                    <div class="terminal t3-g"></div>
+                    <div class="terminal t3-h"></div>
+                    <div class="terminal t3-k"></div>
+                    <div class="terminal t5"></div>
+
+                    <!-- ATS + Bus -->
+                    <div class="ats-line"></div>
+                    <div class="bus-line"></div>
+
+                    <!-- Labels -->
+                    <span class="tl tl-1">T1</span>
+                    <span class="tl tl-2">T2</span>
+                    <span class="tl tl-3">T3</span>
+                    <span class="tl tl-5">T5</span>
+                    <span class="cl cl-b">B</span>
+                    <span class="cl cl-c">C</span>
+                    <span class="cl cl-e">E</span>
+                    <span class="cl cl-f">F</span>
+                    <span class="cl cl-g">G</span>
+                    <span class="cl cl-h">H</span>
+                    <span class="cl cl-k">K</span>
+                    <span class="ats-label">ATS People Mover</span>
+                    <span class="bus-label">Shuttle Bus</span>
+
+                    <!-- Lounge markers -->
+                    <div class="mk mk-amber mk-united">
+                        <div class="mk-dot"></div>
+                        <span class="mk-name">United Club</span>
+                        <span class="mk-time">ATS 4m + 6m walk</span>
+                    </div>
+                    <div class="mk mk-green mk-centurion">
+                        <div class="mk-dot"></div>
+                        <span class="mk-name">Centurion</span>
+                        <span class="mk-time">ATS 3m + 4m walk</span>
+                    </div>
+                    <div class="mk mk-red mk-admirals">
+                        <div class="mk-dot"></div>
+                        <span class="mk-name">Admirals Club</span>
+                        <span class="mk-time">ATS 3m + 5m walk</span>
+                    </div>
+
+                    <!-- You -->
+                    <div class="you-mk">
+                        <div class="you-dot"></div>
+                        <span class="you-lbl">You</span>
+                    </div>
+
+                    <!-- Stamps -->
+                    <div class="map-stamp stamp-1">ORD<br>2026</div>
+                    <div class="map-stamp stamp-2">Intl<br>Hub</div>
+                </div>
+            </div>
+
+            <section class="lounges-section">
+                <div class="section-bar">
+                    <h2>Nearby Lounges</h2>
+                    <div class="live-tag"><span class="live-dot"></span> Live</div>
+                </div>
+
+                <!-- Centurion — open, T3 Concourse K -->
+                <div class="lounge">
+                    <input type="checkbox" id="t1" class="lt">
+                    <label for="t1" class="lh">
+                        <div><div class="ln">The Centurion Lounge <span class="arr">&#9662;</span></div><div class="ll">Terminal 3 &middot; Concourse K &middot; near Gate K11</div></div>
+                        <div class="travel-info"><div class="travel-time">7 min</div><div class="travel-method">ATS 3m + Walk 4m</div></div>
+                        <div class="cap-area"><div class="cap-num">27 <span class="of">/</span> <span class="tot">70</span></div><div class="cbar"><div class="cfill cg" style="width:39%"></div></div></div>
+                        <div class="st-area"><span class="badge b-open">Available</span></div>
+                    </label>
+                    <div class="lb"><div class="li">
+                        <div class="dl">Currently Serving</div>
+                        <div class="food-grid">
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=300&h=200&fit=crop')"><span class="fcat">Bakery</span></div><div class="ft"><div class="fn">Butter Croissant</div><div class="fd">Freshly baked</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1608039829572-9b0ba909df18?w=300&h=200&fit=crop')"><span class="fcat">Hot</span></div><div class="ft"><div class="fn">Eggs Benedict</div><div class="fd">Hollandaise</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=300&h=200&fit=crop')"><span class="fcat">Coffee</span></div><div class="ft"><div class="fn">Lavazza Espresso</div><div class="fd">Double shot</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=300&h=200&fit=crop')"><span class="fcat">Fresh</span></div><div class="ft"><div class="fn">Avocado Toast</div><div class="fd">Sourdough</div></div></div>
+                        </div>
+                        <div class="dl">Details</div>
+                        <div class="info-row">
+                            <div><span class="iv">43</span><br><span class="il">Seats open</span></div>
+                            <div><span class="iv">None</span><br><span class="il">Waitlist</span></div>
+                            <div><span class="iv">Walk in</span><br><span class="il">Access</span></div>
+                            <div><span class="iv">8:30 PM</span><br><span class="il">Closes</span></div>
+                        </div>
+                        <div class="dl">Solo Travelers</div>
+                        <div class="solo-grid">
+                            <div class="solo-card"><input type="checkbox" id="s1" class="solo-check"><label for="s1" class="sc"><span class="av">JK</span> James K.</label><div class="sp"><div class="sph"><div class="spa">JK</div><div><div class="spn">James Kim</div><div class="spd">ORD → SFO &middot; Gate B12</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">31</div></div><div><div class="spl">Gender</div><div class="spv">Male</div></div><div><div class="spl">Occupation</div><div class="spv">Product Manager</div></div><div><div class="spl">From</div><div class="spv">Chicago, IL</div></div></div><div class="sph-tags"><span class="sph-tag">Photography</span><span class="sph-tag">Hiking</span><span class="sph-tag">Coffee</span></div></div></div>
+                            <div class="solo-card"><input type="checkbox" id="s2" class="solo-check"><label for="s2" class="sc"><span class="av">ML</span> Maria L.</label><div class="sp"><div class="sph"><div class="spa">ML</div><div><div class="spn">Maria Lopez</div><div class="spd">ORD → NRT &middot; Gate C22</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">28</div></div><div><div class="spl">Gender</div><div class="spv">Female</div></div><div><div class="spl">Occupation</div><div class="spv">UX Designer</div></div><div><div class="spl">From</div><div class="spv">Austin, TX</div></div></div><div class="sph-tags"><span class="sph-tag">Sketching</span><span class="sph-tag">Yoga</span><span class="sph-tag">Anime</span></div></div></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <!-- United Club — busy, T1 Concourse C -->
+                <div class="lounge">
+                    <input type="checkbox" id="t2" class="lt">
+                    <label for="t2" class="lh">
+                        <div><div class="ln">United Club <span class="arr">&#9662;</span></div><div class="ll">Terminal 1 &middot; Concourse C &middot; near Gate C16</div></div>
+                        <div class="travel-info"><div class="travel-time">10 min</div><div class="travel-method">ATS 4m + Walk 6m</div></div>
+                        <div class="cap-area"><div class="cap-num">52 <span class="of">/</span> <span class="tot">80</span></div><div class="cbar"><div class="cfill ca" style="width:65%"></div></div></div>
+                        <div class="st-area"><span class="badge b-busy">Limited</span></div>
+                    </label>
+                    <div class="lb"><div class="li">
+                        <div class="dl">Currently Serving</div>
+                        <div class="food-grid">
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300&h=200&fit=crop')"><span class="fcat">Soup</span></div><div class="ft"><div class="fn">Chicken Noodle</div><div class="fd">House recipe</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=300&h=200&fit=crop')"><span class="fcat">Hot</span></div><div class="ft"><div class="fn">Pancake Stack</div><div class="fd">Maple, butter</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1551024506-0bccd828d307?w=300&h=200&fit=crop')"><span class="fcat">Snack</span></div><div class="ft"><div class="fn">Cheese & Crackers</div><div class="fd">Brie, cheddar</div></div></div>
+                        </div>
+                        <div class="dl">Details</div>
+                        <div class="info-row">
+                            <div><span class="iv">28</span><br><span class="il">Seats open</span></div>
+                            <div><span class="iv">None</span><br><span class="il">Waitlist</span></div>
+                            <div><span class="iv">Walk in</span><br><span class="il">Access</span></div>
+                            <div><span class="iv">9:45 PM</span><br><span class="il">Closes</span></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <!-- Admirals Club — FULL, T3 Concourse H -->
+                <div class="lounge">
+                    <input type="checkbox" id="t3" class="lt">
+                    <label for="t3" class="lh">
+                        <div><div class="ln">Admirals Club <span class="arr">&#9662;</span></div><div class="ll">Terminal 3 &middot; Concourse H &middot; near Gate H9</div></div>
+                        <div class="travel-info"><div class="travel-time">8 min</div><div class="travel-method">ATS 3m + Walk 5m</div></div>
+                        <div class="cap-area"><div class="cap-num">65 <span class="of">/</span> <span class="tot">65</span></div><div class="cbar"><div class="cfill cr" style="width:100%"></div></div></div>
+                        <div class="st-area"><span class="badge b-full">Waitlist</span><div class="wait-info">8 in queue &middot; ~18 min</div></div>
+                    </label>
+                    <div class="lb"><div class="li">
+                        <div class="join-box">
+                            <div class="join-title">Join the Waitlist</div>
+                            <div class="join-options">
+                                <input type="radio" name="wl3" id="wg3" class="join-radio" checked><label for="wg3" class="join-option"><div class="join-option-name">General Pool</div><div class="join-option-desc">Next available seat &middot; ~18 min</div></label>
+                                <input type="radio" name="wl3" id="ws3" class="join-radio"><label for="ws3" class="join-option"><div class="join-option-name">Solo Traveler</div><div class="join-option-desc">Share a table &middot; ~8 min</div></label>
+                            </div>
+                            <div class="join-bottom"><div class="join-proximity"><span class="ok">&#10003;</span> You're within 100m</div><button class="join-btn">Join</button></div>
+                        </div>
+                        <div class="dl">Currently Serving</div>
+                        <div class="food-grid">
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=300&h=200&fit=crop')"><span class="fcat">Bakery</span></div><div class="ft"><div class="fn">Blueberry Muffin</div><div class="fd">Fresh baked</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=200&fit=crop')"><span class="fcat">Main</span></div><div class="ft"><div class="fn">Penne Arrabbiata</div><div class="fd">Spicy tomato</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1598346762291-aee88549193f?w=300&h=200&fit=crop')"><span class="fcat">Bar</span></div><div class="ft"><div class="fn">Craft Beer Flight</div><div class="fd">4 local brews</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=300&h=200&fit=crop')"><span class="fcat">Dessert</span></div><div class="ft"><div class="fn">Chocolate Brownie</div><div class="fd">Sea salt</div></div></div>
+                        </div>
+                        <div class="dl">Details</div>
+                        <div class="info-row">
+                            <div><span class="iv">0</span><br><span class="il">Seats open</span></div>
+                            <div><span class="iv">8 people</span><br><span class="il">Waitlist</span></div>
+                            <div><span class="iv">~18 min</span><br><span class="il">Est. wait</span></div>
+                            <div><span class="iv">9:00 PM</span><br><span class="il">Closes</span></div>
+                        </div>
+                        <div class="dl">Solo Travelers</div>
+                        <div class="solo-grid">
+                            <div class="solo-card"><input type="checkbox" id="s3" class="solo-check"><label for="s3" class="sc"><span class="av">LP</span> Lisa P.</label><div class="sp"><div class="sph"><div class="spa">LP</div><div><div class="spn">Lisa Patel</div><div class="spd">ORD → MIA &middot; Gate H14</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">36</div></div><div><div class="spl">Gender</div><div class="spv">Female</div></div><div><div class="spl">Occupation</div><div class="spv">Marketing VP</div></div><div><div class="spl">From</div><div class="spv">Detroit, MI</div></div></div><div class="sph-tags"><span class="sph-tag">Yoga</span><span class="sph-tag">Wine</span><span class="sph-tag">Travel</span></div></div></div>
+                            <div class="solo-card"><input type="checkbox" id="s4" class="solo-check"><label for="s4" class="sc"><span class="av">RJ</span> Ryan J.</label><div class="sp"><div class="sph"><div class="spa">RJ</div><div><div class="spn">Ryan Johnson</div><div class="spd">ORD → LAX &middot; Gate H20</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">27</div></div><div><div class="spl">Gender</div><div class="spv">Male</div></div><div><div class="spl">Occupation</div><div class="spv">Film Editor</div></div><div><div class="spl">From</div><div class="spv">Nashville, TN</div></div></div><div class="sph-tags"><span class="sph-tag">Film</span><span class="sph-tag">Basketball</span><span class="sph-tag">Vinyl</span></div></div></div>
+                        </div>
+                    </div></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 LoungeLink &middot; Brian Song</footer>
+</body>
+</html>
