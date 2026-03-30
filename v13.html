@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v13</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: #0b0b0b;
+            color: #e8e4dc;
+            min-height: 100vh;
+        }
+
+        .gold { color: #c9a96e; }
+
+        /* Tab system */
+        .tab-r { display: none; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 4rem;
+            border-bottom: 1px solid #c9a96e22;
+            position: sticky;
+            top: 0;
+            background: #0b0b0b;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #c9a96e;
+        }
+
+        .nav-tabs { display: flex; gap: 0; }
+
+        .nav-tab {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #555;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            font-weight: 300;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover { color: #c9a96e; }
+
+        #tab-about:checked ~ nav .tab-about-l,
+        #tab-lounges:checked ~ nav .tab-lounges-l { color: #c9a96e; border-bottom: 1px solid #c9a96e; }
+
+        #tab-about:checked ~ .page .view-about { display: block; }
+        #tab-lounges:checked ~ .page .view-lounges { display: block; }
+
+        .view-about, .view-lounges { display: none; }
+
+        .thin-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e33, transparent);
+            margin: 0 4rem;
+        }
+
+        .diamond {
+            width: 8px; height: 8px;
+            background: #c9a96e;
+            transform: rotate(45deg);
+            margin: 3rem auto;
+        }
+
+        /* ====== ABOUT VIEW ====== */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 5rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #c9a96e;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+            max-width: 650px;
+        }
+
+        .hero h1 em { font-style: italic; color: #c9a96e; }
+
+        .hero-desc {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #777;
+            max-width: 460px;
+            line-height: 1.9;
+            margin-bottom: 3rem;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #c9a96e;
+            text-decoration: none;
+            border: 1px solid #c9a96e44;
+            padding: 1rem 3rem;
+            transition: all 0.4s;
+            font-weight: 400;
+            cursor: pointer;
+            background: none;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .hero-cta:hover { background: #c9a96e; color: #0b0b0b; border-color: #c9a96e; }
+
+        .section-label {
+            text-align: center;
+            font-size: 0.6rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 4rem 5rem;
+        }
+
+        .feature-col { padding: 2.5rem 3rem; }
+
+        .feature-divider { background: linear-gradient(180deg, transparent, #c9a96e33, transparent); }
+
+        .feature-item { margin-bottom: 3rem; }
+        .feature-item:last-child { margin-bottom: 0; }
+
+        .feature-item .num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #c9a96e33;
+            margin-bottom: 0.4rem;
+            line-height: 1;
+        }
+
+        .feature-item h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .closing {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .closing p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            font-style: italic;
+            color: #555;
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ====== LOUNGES VIEW ====== */
+        .airport-header {
+            padding: 3rem 4rem 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .airport-name {
+            font-size: 0.6rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #c9a96e;
+            margin-bottom: 0.5rem;
+        }
+
+        .airport-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 0.25rem;
+        }
+
+        .airport-sub { font-size: 0.8rem; color: #555; font-weight: 300; }
+
+        .your-location {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 1px solid #c9a96e33;
+            padding: 0.35rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 1rem;
+            font-weight: 300;
+        }
+
+        .loc-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #c9a96e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.3); }
+            50% { box-shadow: 0 0 0 5px rgba(201,169,110,0); }
+        }
+
+        /* Map */
+        .map-section { max-width: 960px; margin: 1.5rem auto 0; padding: 0 4rem; }
+
+        .map-container {
+            background: #0f0f0f;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .terminal-shape { position: absolute; background: #151515; border: 1px solid #222; border-radius: 6px; }
+        .t1 { width: 170px; height: 50px; top: 50px; left: 40px; }
+        .t2 { width: 240px; height: 50px; top: 50px; left: 240px; }
+        .t3 { width: 180px; height: 50px; top: 50px; left: 510px; }
+
+        .skytrain-line { position: absolute; top: 128px; left: 60px; right: 80px; height: 1px; background: repeating-linear-gradient(90deg, #c9a96e44 0px, #c9a96e44 8px, transparent 8px, transparent 14px); }
+        .skytrain-label { position: absolute; top: 134px; left: 50%; transform: translateX(-50%); font-size: 0.5rem; color: #c9a96e66; letter-spacing: 2px; text-transform: uppercase; background: #0f0f0f; padding: 0 0.5rem; }
+
+        .t-label { position: absolute; font-size: 0.55rem; font-weight: 300; color: #444; letter-spacing: 1px; text-transform: uppercase; }
+        .tl-1 { top: 38px; left: 90px; } .tl-2 { top: 38px; left: 325px; } .tl-3 { top: 38px; left: 565px; }
+
+        .marker { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+        .marker-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid; }
+        .m-green .marker-dot { border-color: #7a9e7e; } .m-amber .marker-dot { border-color: #c9a96e; } .m-red .marker-dot { border-color: #8b5e3c; }
+        .marker-name { font-size: 0.5rem; font-weight: 400; color: #888; white-space: nowrap; }
+        .marker-time { font-size: 0.45rem; color: #555; white-space: nowrap; }
+        .m1 { top: 55px; left: 55px; } .m2 { top: 55px; left: 310px; } .m3 { top: 55px; left: 545px; }
+
+        .you-marker { position: absolute; top: 150px; left: 330px; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+        .you-dot { width: 12px; height: 12px; border-radius: 50%; background: #c9a96e; border: 2px solid #0b0b0b; box-shadow: 0 0 0 2px rgba(201,169,110,0.3); animation: pulse 2s infinite; }
+        .you-label { font-size: 0.55rem; font-weight: 400; color: #c9a96e; }
+
+        /* Lounge cards */
+        .lounges-section { max-width: 960px; margin: 2rem auto 0; padding: 0 4rem 4rem; }
+
+        .section-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+        .section-bar h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; letter-spacing: 1px; }
+
+        .live-tag { display: flex; align-items: center; gap: 0.4rem; font-size: 0.65rem; color: #555; font-weight: 300; letter-spacing: 1px; }
+        .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #7a9e7e; animation: pulse 2s infinite; }
+
+        .lounge { background: #0f0f0f; border: 1px solid #1a1a1a; border-radius: 10px; margin-bottom: 0.75rem; overflow: hidden; }
+        .lt { display: none; }
+
+        .lh {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.15rem 1.5rem;
+            cursor: pointer;
+        }
+
+        .ln {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem; font-weight: 400; margin-bottom: 0.1rem;
+        }
+        .ll { font-size: 0.68rem; color: #555; font-weight: 300; letter-spacing: 0.5px; }
+        .arr { color: #444; font-size: 0.55rem; transition: transform 0.3s; margin-left: 0.25rem; }
+        .lt:checked ~ .lh .arr { transform: rotate(180deg); }
+
+        .travel-info { text-align: center; }
+        .travel-time { font-size: 0.85rem; font-weight: 500; color: #c9a96e; }
+        .travel-method { font-size: 0.55rem; color: #555; font-weight: 300; letter-spacing: 0.5px; }
+
+        .cap-area { text-align: right; }
+        .cap-num { font-size: 1.1rem; font-weight: 500; }
+        .cap-num .of { color: #333; font-weight: 300; } .cap-num .tot { color: #555; font-weight: 300; }
+
+        .cbar { width: 80px; height: 3px; background: #1a1a1a; border-radius: 2px; overflow: hidden; margin-top: 0.3rem; margin-left: auto; }
+        .cfill { height: 100%; border-radius: 2px; }
+        .cg { background: #7a9e7e; } .ca { background: #c9a96e; } .cr { background: #8b5e3c; }
+
+        .st-area { text-align: right; min-width: 90px; }
+        .badge { display: inline-block; font-size: 0.6rem; font-weight: 400; padding: 0.2rem 0.6rem; border-radius: 4px; letter-spacing: 0.5px; }
+        .b-open { background: #0f1a14; color: #7a9e7e; } .b-busy { background: #1a1508; color: #c9a96e; } .b-full { background: #1a0f0a; color: #8b5e3c; }
+        .wait-info { font-size: 0.62rem; color: #555; margin-top: 0.2rem; font-weight: 300; }
+
+        .lb { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+        .lt:checked ~ .lb { max-height: 1400px; }
+        .li { padding: 0 1.5rem 1.5rem; border-top: 1px solid #151515; }
+
+        .dl {
+            font-size: 0.55rem; font-weight: 400; letter-spacing: 3px;
+            text-transform: uppercase; color: #444; margin: 1.25rem 0 0.75rem;
+        }
+
+        /* Join waitlist */
+        .join-box {
+            margin-top: 0.75rem; padding: 1rem;
+            background: #111; border: 1px solid #1a1a1a; border-radius: 8px;
+        }
+        .join-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem; font-weight: 400; margin-bottom: 0.75rem; letter-spacing: 0.5px;
+        }
+        .join-options { display: flex; gap: 0.6rem; margin-bottom: 0.75rem; }
+        .join-radio { display: none; }
+        .join-option {
+            flex: 1; background: #151515; border: 1px solid #222;
+            border-radius: 8px; padding: 0.75rem; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .join-option:hover { border-color: #c9a96e44; }
+        .join-radio:checked + .join-option { border-color: #c9a96e; background: #14120e; }
+        .join-option-name { font-size: 0.75rem; font-weight: 400; margin-bottom: 0.15rem; }
+        .join-option-desc { font-size: 0.6rem; color: #555; line-height: 1.4; font-weight: 300; }
+        .join-bottom { display: flex; justify-content: space-between; align-items: center; }
+        .join-proximity { font-size: 0.65rem; color: #555; font-weight: 300; }
+        .join-proximity .ok { color: #7a9e7e; }
+        .join-btn {
+            background: #c9a96e; color: #0b0b0b; padding: 0.5rem 1.5rem;
+            border: none; border-radius: 4px; font-family: 'Jost', sans-serif;
+            font-size: 0.7rem; font-weight: 500; cursor: pointer;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .join-btn:hover { background: #dbb97e; }
+
+        /* Food */
+        .food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.6rem; }
+        .fc { border-radius: 8px; overflow: hidden; border: 1px solid #1a1a1a; background: #111; transition: transform 0.15s; }
+        .fc:hover { transform: scale(1.02); }
+        .fp { height: 80px; background-size: cover; background-position: center; position: relative; }
+        .fcat { position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,0.7); color: #c9a96e; font-size: 0.45rem; font-weight: 400; padding: 0.12rem 0.35rem; border-radius: 3px; letter-spacing: 1px; text-transform: uppercase; }
+        .ft { padding: 0.45rem 0.55rem; }
+        .ft .fn { font-size: 0.75rem; font-weight: 400; }
+        .ft .fd { font-size: 0.6rem; color: #555; font-weight: 300; }
+
+        .info-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .iv { font-size: 0.95rem; font-weight: 500; }
+        .il { font-size: 0.6rem; color: #555; font-weight: 300; letter-spacing: 0.5px; }
+
+        /* Solo */
+        .solo-grid { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .solo-card { position: relative; }
+        .solo-check { display: none; }
+        .sc {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            background: #151515; border: 1px solid #222;
+            padding: 0.3rem 0.7rem; border-radius: 4px;
+            font-size: 0.68rem; color: #888; font-weight: 300;
+            cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
+        }
+        .sc:hover { border-color: #c9a96e44; color: #c9a96e; }
+        .sc .av {
+            width: 18px; height: 18px; border-radius: 50%;
+            background: #c9a96e33; display: flex; align-items: center; justify-content: center;
+            font-size: 0.45rem; color: #c9a96e; font-weight: 500;
+        }
+        .sp {
+            display: none; position: absolute; bottom: calc(100% + 10px); left: 0;
+            background: #151515; border: 1px solid #2a2a2a; border-radius: 10px;
+            padding: 1.15rem; width: 260px; box-shadow: 0 12px 40px rgba(0,0,0,0.5); z-index: 50;
+        }
+        .solo-check:checked + .sc + .sp { display: block; }
+        .solo-check:checked + .sc { background: #c9a96e; color: #0b0b0b; border-color: #c9a96e; }
+        .solo-check:checked + .sc .av { background: #0b0b0b44; color: #0b0b0b; }
+
+        .sph { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+        .spa { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #c9a96e, #8b6f4e); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #fff; font-weight: 500; }
+        .spn { font-size: 0.85rem; font-weight: 500; }
+        .spd { font-size: 0.65rem; color: #555; font-weight: 300; }
+        .spg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+        .spg .spl { font-size: 0.55rem; color: #444; font-weight: 300; letter-spacing: 0.5px; }
+        .spg .spv { font-size: 0.68rem; font-weight: 400; color: #999; }
+        .sph-tags { display: flex; flex-wrap: wrap; gap: 0.2rem; margin-top: 0.5rem; }
+        .sph-tag { font-size: 0.55rem; background: #1a1a1a; color: #666; padding: 0.18rem 0.4rem; border-radius: 3px; font-weight: 300; }
+
+        footer {
+            text-align: center; padding: 3rem 2rem;
+            border-top: 1px solid #c9a96e11;
+            font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: #333; font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .features { grid-template-columns: 1fr; padding: 0 2rem 3rem; }
+            .feature-divider { display: none; }
+            .feature-col { padding: 1.5rem 0; }
+            .airport-header, .lounges-section, .map-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .map-container { display: none; }
+            .lh { grid-template-columns: 1fr; gap: 0.75rem; }
+            .cap-area, .st-area, .travel-info { text-align: left; }
+            .cbar { margin-left: 0; }
+            .food-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+            .join-options { flex-direction: column; }
+            .thin-line { margin: 0 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <input type="radio" name="tab" id="tab-about" class="tab-r" checked>
+    <input type="radio" name="tab" id="tab-lounges" class="tab-r">
+
+    <nav>
+        <div class="logo">LoungeLink</div>
+        <div class="nav-tabs">
+            <label for="tab-about" class="nav-tab tab-about-l">About</label>
+            <label for="tab-lounges" class="nav-tab tab-lounges-l">Lounges</label>
+            <a href="profile.html" class="nav-tab">Profile</a>
+        </div>
+    </nav>
+
+    <div class="page">
+
+        <!-- ====== ABOUT VIEW ====== -->
+        <div class="view-about">
+            <section class="hero">
+                <div class="hero-eyebrow">A New Standard in Lounge Access</div>
+                <h1>Travel with <em>clarity</em></h1>
+                <p class="hero-desc">Real-time intelligence for the world's finest airport lounges. Capacity, menus, wait times, and curated connections — delivered with the discretion you expect.</p>
+                <label for="tab-lounges" class="hero-cta">Explore Lounges</label>
+            </section>
+
+            <div class="diamond"></div>
+
+            <div class="section-label">The Experience</div>
+
+            <section class="features">
+                <div class="feature-col">
+                    <div class="feature-item">
+                        <div class="num">I</div>
+                        <h3>Live Occupancy</h3>
+                        <p>Discreet, real-time capacity data for every lounge in our network. Know the atmosphere before you arrive.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="num">II</div>
+                        <h3>Remote Waitlist</h3>
+                        <p>Reserve your place from anywhere in the terminal. A quiet notification when your seat is ready.</p>
+                    </div>
+                </div>
+                <div class="feature-divider"></div>
+                <div class="feature-col">
+                    <div class="feature-item">
+                        <div class="num">III</div>
+                        <h3>Curated Menus</h3>
+                        <p>Today's offerings, updated as they change. From the morning espresso bar to the evening cocktail selection.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="num">IV</div>
+                        <h3>Quiet Introductions</h3>
+                        <p>An optional, tasteful way to share a table with a fellow solo traveler. Connections made with care.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="thin-line"></div>
+
+            <section class="closing">
+                <p>The best lounge experience begins before you walk through the door.</p>
+            </section>
+        </div>
+
+        <!-- ====== LOUNGES VIEW ====== -->
+        <div class="view-lounges">
+            <div class="airport-header">
+                <div class="airport-name">You're at</div>
+                <div class="airport-title">Chicago O'Hare International</div>
+                <div class="airport-sub">ORD &middot; 3 lounges nearby</div>
+                <div class="your-location"><span class="loc-dot"></span> Terminal 2, Gate F8</div>
+            </div>
+
+            <div class="map-section">
+                <div class="map-container">
+                    <div class="terminal-shape t1"></div>
+                    <div class="terminal-shape t2"></div>
+                    <div class="terminal-shape t3"></div>
+                    <span class="t-label tl-1">Terminal 1</span>
+                    <span class="t-label tl-2">Terminal 2</span>
+                    <span class="t-label tl-3">Terminal 3</span>
+                    <div class="skytrain-line"></div>
+                    <span class="skytrain-label">ATS SkyTrain</span>
+                    <div class="marker m1 m-amber"><div class="marker-dot"></div><span class="marker-name">United Club</span><span class="marker-time">SkyTrain 4m + 6m walk</span></div>
+                    <div class="marker m2 m-green"><div class="marker-dot"></div><span class="marker-name">Centurion</span><span class="marker-time">8 min walk</span></div>
+                    <div class="marker m3 m-red"><div class="marker-dot"></div><span class="marker-name">Admirals Club</span><span class="marker-time">SkyTrain 3m + 5m walk</span></div>
+                    <div class="you-marker"><div class="you-dot"></div><span class="you-label">You</span></div>
+                </div>
+            </div>
+
+            <section class="lounges-section">
+                <div class="section-bar">
+                    <h2>Current Lounges</h2>
+                    <div class="live-tag"><span class="live-dot"></span> Live</div>
+                </div>
+
+                <!-- Centurion — open -->
+                <div class="lounge">
+                    <input type="checkbox" id="t1" class="lt">
+                    <label for="t1" class="lh">
+                        <div><div class="ln">The Centurion Lounge <span class="arr">&#9662;</span></div><div class="ll">Terminal 2 &middot; Concourse F</div></div>
+                        <div class="travel-info"><div class="travel-time">8 min</div><div class="travel-method">Walk</div></div>
+                        <div class="cap-area"><div class="cap-num">27 <span class="of">/</span> <span class="tot">70</span></div><div class="cbar"><div class="cfill cg" style="width:39%"></div></div></div>
+                        <div class="st-area"><span class="badge b-open">Available</span></div>
+                    </label>
+                    <div class="lb"><div class="li">
+                        <div class="join-box">
+                            <div class="join-title">Reserve Your Spot</div>
+                            <div class="join-options">
+                                <input type="radio" name="wl1" id="wg1" class="join-radio" checked><label for="wg1" class="join-option"><div class="join-option-name">General Pool</div><div class="join-option-desc">Next available seat</div></label>
+                                <input type="radio" name="wl1" id="ws1" class="join-radio"><label for="ws1" class="join-option"><div class="join-option-name">Solo Traveler</div><div class="join-option-desc">Share a table — often faster</div></label>
+                            </div>
+                            <div class="join-bottom"><div class="join-proximity"><span class="ok">&#10003;</span> Seats available — walk right in</div><button class="join-btn">Join</button></div>
+                        </div>
+                        <div class="dl">Currently Serving</div>
+                        <div class="food-grid">
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=300&h=200&fit=crop')"><span class="fcat">Bakery</span></div><div class="ft"><div class="fn">Butter Croissant</div><div class="fd">Freshly baked</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1608039829572-9b0ba909df18?w=300&h=200&fit=crop')"><span class="fcat">Hot</span></div><div class="ft"><div class="fn">Eggs Benedict</div><div class="fd">Hollandaise</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=300&h=200&fit=crop')"><span class="fcat">Coffee</span></div><div class="ft"><div class="fn">Lavazza Espresso</div><div class="fd">Double shot</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=300&h=200&fit=crop')"><span class="fcat">Fresh</span></div><div class="ft"><div class="fn">Avocado Toast</div><div class="fd">Sourdough</div></div></div>
+                        </div>
+                        <div class="dl">Details</div>
+                        <div class="info-row">
+                            <div><span class="iv">43</span><br><span class="il">Seats open</span></div>
+                            <div><span class="iv">None</span><br><span class="il">Waitlist</span></div>
+                            <div><span class="iv">Walk in</span><br><span class="il">Access</span></div>
+                            <div><span class="iv">8:30 PM</span><br><span class="il">Closes</span></div>
+                        </div>
+                        <div class="dl">Solo Travelers</div>
+                        <div class="solo-grid">
+                            <div class="solo-card"><input type="checkbox" id="s1" class="solo-check"><label for="s1" class="sc"><span class="av">JK</span> James K.</label><div class="sp"><div class="sph"><div class="spa">JK</div><div><div class="spn">James Kim</div><div class="spd">ORD → SFO &middot; Gate B12</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">31</div></div><div><div class="spl">Gender</div><div class="spv">Male</div></div><div><div class="spl">Occupation</div><div class="spv">Product Manager</div></div><div><div class="spl">From</div><div class="spv">Chicago, IL</div></div></div><div class="sph-tags"><span class="sph-tag">Photography</span><span class="sph-tag">Hiking</span><span class="sph-tag">Coffee</span></div></div></div>
+                            <div class="solo-card"><input type="checkbox" id="s2" class="solo-check"><label for="s2" class="sc"><span class="av">ML</span> Maria L.</label><div class="sp"><div class="sph"><div class="spa">ML</div><div><div class="spn">Maria Lopez</div><div class="spd">ORD → NRT &middot; Gate C22</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">28</div></div><div><div class="spl">Gender</div><div class="spv">Female</div></div><div><div class="spl">Occupation</div><div class="spv">UX Designer</div></div><div><div class="spl">From</div><div class="spv">Austin, TX</div></div></div><div class="sph-tags"><span class="sph-tag">Sketching</span><span class="sph-tag">Yoga</span><span class="sph-tag">Anime</span></div></div></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <!-- United Club — busy -->
+                <div class="lounge">
+                    <input type="checkbox" id="t2" class="lt">
+                    <label for="t2" class="lh">
+                        <div><div class="ln">United Club <span class="arr">&#9662;</span></div><div class="ll">Terminal 1 &middot; Concourse B</div></div>
+                        <div class="travel-info"><div class="travel-time">10 min</div><div class="travel-method">SkyTrain 4m + Walk 6m</div></div>
+                        <div class="cap-area"><div class="cap-num">52 <span class="of">/</span> <span class="tot">80</span></div><div class="cbar"><div class="cfill ca" style="width:65%"></div></div></div>
+                        <div class="st-area"><span class="badge b-busy">Limited</span></div>
+                    </label>
+                    <div class="lb"><div class="li">
+                        <div class="join-box">
+                            <div class="join-title">Reserve Your Spot</div>
+                            <div class="join-options">
+                                <input type="radio" name="wl2" id="wg2" class="join-radio" checked><label for="wg2" class="join-option"><div class="join-option-name">General Pool</div><div class="join-option-desc">Next available seat</div></label>
+                                <input type="radio" name="wl2" id="ws2" class="join-radio"><label for="ws2" class="join-option"><div class="join-option-name">Solo Traveler</div><div class="join-option-desc">Share a table — often faster</div></label>
+                            </div>
+                            <div class="join-bottom"><div class="join-proximity"><span class="ok">&#10003;</span> Seats available — walk right in</div><button class="join-btn">Join</button></div>
+                        </div>
+                        <div class="dl">Currently Serving</div>
+                        <div class="food-grid">
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300&h=200&fit=crop')"><span class="fcat">Soup</span></div><div class="ft"><div class="fn">Chicken Noodle</div><div class="fd">House recipe</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=300&h=200&fit=crop')"><span class="fcat">Hot</span></div><div class="ft"><div class="fn">Pancake Stack</div><div class="fd">Maple, butter</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1551024506-0bccd828d307?w=300&h=200&fit=crop')"><span class="fcat">Snack</span></div><div class="ft"><div class="fn">Cheese & Crackers</div><div class="fd">Brie, cheddar</div></div></div>
+                        </div>
+                        <div class="dl">Details</div>
+                        <div class="info-row">
+                            <div><span class="iv">28</span><br><span class="il">Seats open</span></div>
+                            <div><span class="iv">None</span><br><span class="il">Waitlist</span></div>
+                            <div><span class="iv">Walk in</span><br><span class="il">Access</span></div>
+                            <div><span class="iv">9:45 PM</span><br><span class="il">Closes</span></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <!-- Admirals Club — FULL -->
+                <div class="lounge">
+                    <input type="checkbox" id="t3" class="lt">
+                    <label for="t3" class="lh">
+                        <div><div class="ln">Admirals Club <span class="arr">&#9662;</span></div><div class="ll">Terminal 3 &middot; Concourse H</div></div>
+                        <div class="travel-info"><div class="travel-time">8 min</div><div class="travel-method">SkyTrain 3m + Walk 5m</div></div>
+                        <div class="cap-area"><div class="cap-num">65 <span class="of">/</span> <span class="tot">65</span></div><div class="cbar"><div class="cfill cr" style="width:100%"></div></div></div>
+                        <div class="st-area"><span class="badge b-full">Waitlist</span><div class="wait-info">8 in queue &middot; ~18 min</div></div>
+                    </label>
+                    <div class="lb"><div class="li">
+                        <div class="join-box">
+                            <div class="join-title">Join the Waitlist</div>
+                            <div class="join-options">
+                                <input type="radio" name="wl3" id="wg3" class="join-radio" checked><label for="wg3" class="join-option"><div class="join-option-name">General Pool</div><div class="join-option-desc">Next available seat &middot; ~18 min</div></label>
+                                <input type="radio" name="wl3" id="ws3" class="join-radio"><label for="ws3" class="join-option"><div class="join-option-name">Solo Traveler</div><div class="join-option-desc">Share a table &middot; ~8 min</div></label>
+                            </div>
+                            <div class="join-bottom"><div class="join-proximity"><span class="ok">&#10003;</span> You're within 100m</div><button class="join-btn">Join</button></div>
+                        </div>
+                        <div class="dl">Currently Serving</div>
+                        <div class="food-grid">
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=300&h=200&fit=crop')"><span class="fcat">Bakery</span></div><div class="ft"><div class="fn">Blueberry Muffin</div><div class="fd">Fresh baked</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=200&fit=crop')"><span class="fcat">Main</span></div><div class="ft"><div class="fn">Penne Arrabbiata</div><div class="fd">Spicy tomato</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1598346762291-aee88549193f?w=300&h=200&fit=crop')"><span class="fcat">Bar</span></div><div class="ft"><div class="fn">Craft Beer Flight</div><div class="fd">4 local brews</div></div></div>
+                            <div class="fc"><div class="fp" style="background-image:url('https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=300&h=200&fit=crop')"><span class="fcat">Dessert</span></div><div class="ft"><div class="fn">Chocolate Brownie</div><div class="fd">Sea salt</div></div></div>
+                        </div>
+                        <div class="dl">Details</div>
+                        <div class="info-row">
+                            <div><span class="iv">0</span><br><span class="il">Seats open</span></div>
+                            <div><span class="iv">8 people</span><br><span class="il">Waitlist</span></div>
+                            <div><span class="iv">~18 min</span><br><span class="il">Est. wait</span></div>
+                            <div><span class="iv">9:00 PM</span><br><span class="il">Closes</span></div>
+                        </div>
+                        <div class="dl">Solo Travelers</div>
+                        <div class="solo-grid">
+                            <div class="solo-card"><input type="checkbox" id="s3" class="solo-check"><label for="s3" class="sc"><span class="av">LP</span> Lisa P.</label><div class="sp"><div class="sph"><div class="spa">LP</div><div><div class="spn">Lisa Patel</div><div class="spd">ORD → MIA &middot; Gate H14</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">36</div></div><div><div class="spl">Gender</div><div class="spv">Female</div></div><div><div class="spl">Occupation</div><div class="spv">Marketing VP</div></div><div><div class="spl">From</div><div class="spv">Detroit, MI</div></div></div><div class="sph-tags"><span class="sph-tag">Yoga</span><span class="sph-tag">Wine</span><span class="sph-tag">Travel</span></div></div></div>
+                            <div class="solo-card"><input type="checkbox" id="s4" class="solo-check"><label for="s4" class="sc"><span class="av">RJ</span> Ryan J.</label><div class="sp"><div class="sph"><div class="spa">RJ</div><div><div class="spn">Ryan Johnson</div><div class="spd">ORD → LAX &middot; Gate H20</div></div></div><div class="spg"><div><div class="spl">Age</div><div class="spv">27</div></div><div><div class="spl">Gender</div><div class="spv">Male</div></div><div><div class="spl">Occupation</div><div class="spv">Film Editor</div></div><div><div class="spl">From</div><div class="spv">Nashville, TN</div></div></div><div class="sph-tags"><span class="sph-tag">Film</span><span class="sph-tag">Basketball</span><span class="sph-tag">Vinyl</span></div></div></div>
+                        </div>
+                    </div></div>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+
+    <footer>&copy; 2026 LoungeLink &middot; Brian Song</footer>
+</body>
+</html>
