@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #fff;
+            color: #000;
+            min-height: 100vh;
+        }
+
+        .marquee-bar {
+            background: #000;
+            color: #fff;
+            padding: 0.6rem 0;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            border-bottom: 3px solid #000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: #000;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            border: 2px solid #000;
+            padding: 0.4rem 1rem;
+        }
+
+        nav ul li a:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .hero {
+            padding: 6rem 3rem 4rem;
+            border-bottom: 3px solid #000;
+        }
+
+        .hero h1 {
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -4px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 .outline {
+            -webkit-text-stroke: 3px #000;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            max-width: 450px;
+            line-height: 1.7;
+            border-left: 4px solid #000;
+            padding-left: 1.5rem;
+        }
+
+        .hero-cta {
+            background: #000;
+            color: #fff;
+            padding: 1.2rem 3rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: 3px solid #000;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .hero-cta:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .feature-block {
+            padding: 3rem;
+            border-bottom: 3px solid #000;
+            border-right: 3px solid #000;
+        }
+
+        .feature-block:nth-child(2n) {
+            border-right: none;
+        }
+
+        .feature-block:nth-child(odd) {
+            background: #f5f5f5;
+        }
+
+        .feature-number {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .feature-block h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-block p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #444;
+        }
+
+        .status-section {
+            border-bottom: 3px solid #000;
+            padding: 3rem;
+        }
+
+        .status-header {
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .blink-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f00;
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .status-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 0.75rem 0;
+            border-bottom: 2px solid #000;
+        }
+
+        .status-table td {
+            padding: 1rem 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        .status-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .capacity-bar {
+            width: 120px;
+            height: 8px;
+            background: #eee;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .capacity-fill {
+            height: 100%;
+            background: #000;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.25rem 0.6rem;
+            border: 2px solid;
+        }
+
+        .tag-open { border-color: #0a0; color: #0a0; }
+        .tag-wait { border-color: #c90; color: #c90; }
+        .tag-full { border-color: #c00; color: #c00; }
+
+        footer {
+            padding: 2rem 3rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 4rem; letter-spacing: -2px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .feature-block { border-right: none; }
+            .hero-sub { flex-direction: column; gap: 2rem; align-items: flex-start; }
+            nav { padding: 1.5rem 1.5rem; }
+            .hero, .status-section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .feature-block { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="marquee-bar">
+        /// REAL-TIME LOUNGE DATA /// PRIORITY PASS IS BROKEN /// REAL-TIME LOUNGE DATA /// FIX THE EXPERIENCE ///
+    </div>
+
+    <nav>
+        <div class="logo">LOUNGELINK</div>
+        <ul>
+            <li><a href="#features">Info</a></li>
+            <li><a href="#status">Live</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>STOP<br><span class="outline">GUESSING</span></h1>
+        <div class="hero-sub">
+            <p>Priority Pass gives you a card. We give you the truth — live capacity, real menus, actual wait times, and people to sit with.</p>
+            <button class="hero-cta">Get Access →</button>
+        </div>
+    </section>
+
+    <section class="features-grid" id="features">
+        <div class="feature-block">
+            <div class="feature-number">01</div>
+            <h3>Capacity</h3>
+            <p>Real-time occupancy data. Know before you go. Stop wasting layovers walking to packed lounges.</p>
+        </div>
+        <div class="feature-block">
+            <div class="feature-number">02</div>
+            <h3>Waitlist</h3>
+            <p>Remote queue system. Add yourself from your gate. Get pinged when your spot opens.</p>
+        </div>
+        <div class="feature-block">
+            <div class="feature-number">03</div>
+            <h3>Menu</h3>
+            <p>What's actually being served right now. Updated hourly. Hot food, snacks, bar selections.</p>
+        </div>
+        <div class="feature-block">
+            <div class="feature-number">04</div>
+            <h3>Solo Match</h3>
+            <p>Traveling alone? Find another solo traveler to share a table. Opt-in. No pressure.</p>
+        </div>
+    </section>
+
+    <section class="status-section" id="status">
+        <div class="status-header">
+            <span class="blink-dot"></span> Live Status Feed
+        </div>
+        <table class="status-table">
+            <thead>
+                <tr>
+                    <th>Lounge</th>
+                    <th>Location</th>
+                    <th>Capacity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>The Centurion Lounge</td>
+                    <td>ORD / T3</td>
+                    <td>
+                        <span class="capacity-bar"><span class="capacity-fill" style="width:38%"></span></span>38%
+                    </td>
+                    <td><span class="tag tag-open">Open</span></td>
+                </tr>
+                <tr>
+                    <td>Plaza Premium</td>
+                    <td>LAX / TBIT</td>
+                    <td>
+                        <span class="capacity-bar"><span class="capacity-fill" style="width:72%"></span></span>72%
+                    </td>
+                    <td><span class="tag tag-wait">Wait</span></td>
+                </tr>
+                <tr>
+                    <td>SkyTeam Lounge</td>
+                    <td>JFK / T4</td>
+                    <td>
+                        <span class="capacity-bar"><span class="capacity-fill" style="width:94%"></span></span>94%
+                    </td>
+                    <td><span class="tag tag-full">Full</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink &mdash; Brian Song
+    </footer>
+</body>
+</html>
