@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v5</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: #f4ece1;
+            color: #2c2418;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Aged paper texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(139,90,43,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 20%, rgba(139,90,43,0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stamp {
+            position: absolute;
+            border: 3px solid;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            line-height: 1.3;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .stamp-1 {
+            width: 100px;
+            height: 100px;
+            top: 12rem;
+            right: 8%;
+            color: #8b3a3a;
+            border-color: #8b3a3a;
+            transform: rotate(-18deg);
+        }
+
+        .stamp-2 {
+            width: 80px;
+            height: 80px;
+            top: 38rem;
+            left: 5%;
+            color: #2e5a3a;
+            border-color: #2e5a3a;
+            transform: rotate(12deg);
+        }
+
+        .stamp-3 {
+            width: 90px;
+            height: 90px;
+            bottom: 30rem;
+            right: 12%;
+            color: #3a4a6b;
+            border-color: #3a4a6b;
+            transform: rotate(-8deg);
+        }
+
+        nav {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+        }
+
+        .logo {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.6rem;
+            color: #8b3a3a;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: #8b6f4e;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #2c2418;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 8rem 2rem 5rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            border: 2px solid #8b6f4e;
+            border-radius: 50px;
+            padding: 0.4rem 1.5rem;
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-family: 'Abril Fatface', serif;
+            font-size: 5rem;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: #2c2418;
+        }
+
+        .hero h1 .script {
+            display: block;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            margin-top: 0.5rem;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 2px;
+            background: #8b3a3a;
+            margin: 2.5rem auto;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: #7a6b5a;
+            max-width: 520px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #8b3a3a;
+            color: #f4ece1;
+            padding: 1rem 3rem;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #6b2a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139,58,58,0.2);
+        }
+
+        .destinations-label {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            margin: 4rem 0 3rem;
+        }
+
+        .destinations-label span {
+            background: #f4ece1;
+            padding: 0 2rem;
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #8b6f4e;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .destinations-label::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: #d4c4a8;
+        }
+
+        .features-row {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: 1000px;
+            margin: 0 auto 5rem;
+            padding: 0 4rem;
+        }
+
+        .feature-stamp {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border: 1px dashed #c4b498;
+            margin: -0.5px;
+        }
+
+        .feature-stamp .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #8b3a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 1.4rem;
+        }
+
+        .feature-stamp h3 {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-stamp p {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: #8b6f4e;
+            line-height: 1.6;
+        }
+
+        .postcard-section {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 4rem 5rem;
+        }
+
+        .postcard {
+            background: #fffdf8;
+            border: 1px solid #d4c4a8;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            gap: 2.5rem;
+            box-shadow: 2px 3px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .postcard::before {
+            content: 'AIRMAIL';
+            position: absolute;
+            top: -10px;
+            right: 30px;
+            background: #8b3a3a;
+            color: #f4ece1;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            padding: 0.3rem 1rem;
+            font-weight: 600;
+        }
+
+        .postcard-left h2 {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .lounge-item {
+            padding: 1.25rem 0;
+            border-bottom: 1px dashed #d4c4a8;
+        }
+
+        .lounge-item:last-child {
+            border-bottom: none;
+        }
+
+        .lounge-item .name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .lounge-item .loc {
+            font-size: 0.75rem;
+            color: #8b6f4e;
+            letter-spacing: 1px;
+        }
+
+        .postcard-divider {
+            background: #d4c4a8;
+        }
+
+        .postcard-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .status-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px dotted #d4c4a8;
+        }
+
+        .status-line:last-child {
+            border-bottom: none;
+        }
+
+        .status-line .airport-code {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.4rem;
+            color: #8b3a3a;
+        }
+
+        .status-line .details {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #8b6f4e;
+        }
+
+        .status-line .details .pct {
+            font-weight: 600;
+            color: #2c2418;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 2rem;
+            font-size: 0.75rem;
+            color: #b0a08a;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .features-row { grid-template-columns: 1fr 1fr; padding: 0 2rem; }
+            nav { padding: 1.5rem 2rem; }
+            .postcard { grid-template-columns: 1fr; }
+            .postcard-divider { display: none; }
+            .postcard-section { padding: 0 2rem 4rem; }
+        }
+
+        @media (max-width: 480px) {
+            .features-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stamp stamp-1">ORD<br>Cleared<br>2026</div>
+    <div class="stamp stamp-2">LAX<br>Transit<br>Gate B</div>
+    <div class="stamp stamp-3">JFK<br>Lounge<br>Access</div>
+
+    <nav>
+        <div class="logo">LoungeLink</div>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#lounges">Lounges</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">Est. 2026 &middot; For the Modern Traveler</div>
+        <h1>
+            Your Lounge,<br>Revealed
+            <span class="script">Before You Even Board</span>
+        </h1>
+        <div class="hero-divider"></div>
+        <p>Live capacity, real-time menus, waitlist alerts, and a way to meet fellow solo travelers — the lounge companion that Priority Pass forgot to build.</p>
+        <a href="#" class="cta-btn">Begin Your Journey</a>
+    </section>
+
+    <div class="destinations-label">
+        <span>What We Offer</span>
+    </div>
+
+    <section class="features-row" id="features">
+        <div class="feature-stamp">
+            <div class="icon-circle">📊</div>
+            <h3>Capacity</h3>
+            <p>Real-time occupancy so you never arrive to a full house</p>
+        </div>
+        <div class="feature-stamp">
+            <div class="icon-circle">📋</div>
+            <h3>Waitlist</h3>
+            <p>Queue remotely and get notified when your spot opens</p>
+        </div>
+        <div class="feature-stamp">
+            <div class="icon-circle">🍽️</div>
+            <h3>Menu</h3>
+            <p>See exactly what's being served right now, updated live</p>
+        </div>
+        <div class="feature-stamp">
+            <div class="icon-circle">🤝</div>
+            <h3>Connect</h3>
+            <p>Share a table with another solo traveler between flights</p>
+        </div>
+    </section>
+
+    <section class="postcard-section" id="lounges">
+        <div class="postcard">
+            <div class="postcard-left">
+                <h2>Live Lounges</h2>
+                <div class="lounge-item">
+                    <div class="name">The Centurion Lounge</div>
+                    <div class="loc">Chicago O'Hare &middot; Terminal 3</div>
+                </div>
+                <div class="lounge-item">
+                    <div class="name">Plaza Premium</div>
+                    <div class="loc">Los Angeles &middot; Tom Bradley Intl</div>
+                </div>
+                <div class="lounge-item">
+                    <div class="name">SkyTeam Lounge</div>
+                    <div class="loc">New York JFK &middot; Terminal 4</div>
+                </div>
+            </div>
+            <div class="postcard-divider"></div>
+            <div class="postcard-right">
+                <div class="status-line">
+                    <span class="airport-code">ORD</span>
+                    <span class="details"><span class="pct">38%</span> full &middot; No wait</span>
+                </div>
+                <div class="status-line">
+                    <span class="airport-code">LAX</span>
+                    <span class="details"><span class="pct">72%</span> full &middot; ~10 min</span>
+                </div>
+                <div class="status-line">
+                    <span class="airport-code">JFK</span>
+                    <span class="details"><span class="pct">94%</span> full &middot; ~25 min</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink &middot; Brian Song
+    </footer>
+</body>
+</html>
