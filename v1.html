@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — v1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        nav .logo span {
+            color: #f0c040;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #fff;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .badge {
+            background: rgba(240, 192, 64, 0.15);
+            border: 1px solid rgba(240, 192, 64, 0.3);
+            color: #f0c040;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            max-width: 700px;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #f0c040, #f09040);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.6);
+            max-width: 550px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cta-primary {
+            background: #f0c040;
+            color: #1a1a2e;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(240, 192, 64, 0.3);
+        }
+
+        .cta-secondary {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 6rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+
+        .live-demo {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .live-demo h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .live-demo p {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 3rem;
+        }
+
+        .lounge-cards {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .lounge-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 260px;
+            text-align: left;
+        }
+
+        .lounge-card .lounge-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .lounge-card .lounge-airport {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 1rem;
+        }
+
+        .lounge-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-green { background: #4ade80; }
+        .status-yellow { background: #facc15; }
+        .status-red { background: #f87171; }
+
+        .capacity-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .wait-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .features { grid-template-columns: 1fr 1fr; }
+            nav { padding: 1.5rem 2rem; }
+            .features { padding: 4rem 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .features { grid-template-columns: 1fr; }
+            .cta-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Lounge<span>Link</span></div>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#demo">Live Demo</a></li>
+            <li><a href="#">Download</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="badge">Real-Time Airport Lounge Intelligence</div>
+        <h1>Know your lounge <span>before you arrive</span></h1>
+        <p>Live capacity, real-time menus, waitlist updates, and solo traveler matching — everything Priority Pass doesn't tell you.</p>
+        <div class="cta-group">
+            <button class="cta-primary">Get Early Access</button>
+            <button class="cta-secondary">See How It Works</button>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Live Capacity</h3>
+            <p>See how crowded a lounge is in real time. No more walking across the terminal to find a packed room.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Remote Waitlist</h3>
+            <p>Join the waitlist from your gate. Get notified when there's a spot — spend your time how you want.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🍽️</div>
+            <h3>Live Menu</h3>
+            <p>See exactly what's being served right now. Hot meals, snacks, drinks — updated throughout the day.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🤝</div>
+            <h3>Solo Match</h3>
+            <p>Traveling alone? Share a table with other solo travelers. Meet interesting people between flights.</p>
+        </div>
+    </section>
+
+    <section class="live-demo" id="demo">
+        <h2>Live Lounge Status</h2>
+        <p>Here's what's happening right now</p>
+        <div class="lounge-cards">
+            <div class="lounge-card">
+                <div class="lounge-name">The Centurion Lounge</div>
+                <div class="lounge-airport">ORD — Terminal 3</div>
+                <div class="lounge-status">
+                    <span class="capacity-text"><span class="status-dot status-green"></span>38% full</span>
+                    <span class="wait-text">No wait</span>
+                </div>
+            </div>
+            <div class="lounge-card">
+                <div class="lounge-name">Plaza Premium</div>
+                <div class="lounge-airport">LAX — Tom Bradley Intl</div>
+                <div class="lounge-status">
+                    <span class="capacity-text"><span class="status-dot status-yellow"></span>72% full</span>
+                    <span class="wait-text">~10 min wait</span>
+                </div>
+            </div>
+            <div class="lounge-card">
+                <div class="lounge-name">SkyTeam Lounge</div>
+                <div class="lounge-airport">JFK — Terminal 4</div>
+                <div class="lounge-status">
+                    <span class="capacity-text"><span class="status-dot status-red"></span>94% full</span>
+                    <span class="wait-text">~25 min wait</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 LoungeLink. A concept by Brian Song.
+    </footer>
+</body>
+</html>

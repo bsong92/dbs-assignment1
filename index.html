@@ -3,10 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Gallery - Assignment 1</title>
+    <title>Design Gallery — LoungeLink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 span {
+            color: #f0c040;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .intro {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        .phase {
+            margin-bottom: 3rem;
+        }
+
+        .phase-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #f0c040;
+            margin-bottom: 1.5rem;
+        }
+
+        .version-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .version-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-decoration: none;
+            color: #e0e0e0;
+            transition: transform 0.2s, background 0.2s;
+            display: block;
+        }
+
+        .version-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .version-card .version-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .version-card .version-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.5;
+        }
+
+        .final-banner {
+            background: linear-gradient(135deg, rgba(240,192,64,0.1), rgba(240,144,64,0.1));
+            border: 1px solid rgba(240,192,64,0.2);
+            border-radius: 12px;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.25);
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Design Gallery</h1>
-    <p>25 landing page iterations — coming soon.</p>
+    <div class="container">
+        <h1>Lounge<span>Link</span> — Design Gallery</h1>
+        <p class="subtitle">25 iterations of a real-time airport lounge companion app</p>
+        <p class="intro">
+            Priority Pass gives you access to airport lounges, but tells you nothing about what's happening inside —
+            how crowded it is, what food is being served, or how long the wait is. LoungeLink is a concept for a
+            real-time lounge companion that solves this. Below is the design journey from wild exploration to final refinement.
+        </p>
+
+        <div class="phase">
+            <div class="phase-title">Phase 1 — Exploration (v1–v10)</div>
+            <div class="version-grid">
+                <a href="v1.html" class="version-card">
+                    <div class="version-number">v1</div>
+                    <div class="version-desc">Dark gradient tech — bold hero with gold accents and live status cards</div>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            Brian Song &middot; MPCS 51238 &middot; Design, Build, Ship &middot; Spring 2026
+        </footer>
+    </div>
 </body>
 </html>
