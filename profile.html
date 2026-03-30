@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoungeLink — Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #111116; color: #e4e4e7; min-height: 100vh; }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 2rem; border-bottom: 1px solid #1e1e24;
+            position: sticky; top: 0; background: #111116; z-index: 100;
+        }
+        .logo { font-size: 1.1rem; font-weight: 700; }
+        .logo span { color: #818cf8; }
+        .nav-pills { display: flex; gap: 0.4rem; }
+        .nav-pill {
+            font-size: 0.75rem; color: #52525b; background: #1e1e24;
+            padding: 0.4rem 0.9rem; border-radius: 8px; font-weight: 500;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-pill:hover { color: #a1a1aa; background: #27272e; }
+        .nav-pill.active { color: #e4e4e7; background: #27272e; }
+
+        .profile-section { max-width: 700px; margin: 0 auto; padding: 2rem; }
+
+        .profile-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; }
+        .profile-avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: #fff; font-weight: 800;
+        }
+        .profile-name { font-size: 1.4rem; font-weight: 800; }
+        .profile-handle { font-size: 0.8rem; color: #52525b; }
+        .profile-bio { font-size: 0.85rem; color: #71717a; margin-top: 0.3rem; }
+
+        .profile-stats {
+            display: flex; gap: 2rem; padding: 1.25rem;
+            background: #18181d; border: 1px solid #27272e; border-radius: 12px; margin-bottom: 1.5rem;
+        }
+        .p-stat { text-align: center; flex: 1; }
+        .p-stat-num { font-size: 1.3rem; font-weight: 800; color: #818cf8; }
+        .p-stat-label { font-size: 0.68rem; color: #52525b; margin-top: 0.15rem; }
+
+        .p-section-title {
+            font-size: 0.65rem; font-weight: 600; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #3f3f46; margin: 1.5rem 0 0.75rem;
+        }
+
+        .waitlist-card {
+            background: #1e1b4b; border: 1px solid #312e81;
+            border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+        }
+        .wl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .wl-badge { font-size: 0.6rem; font-weight: 600; background: #818cf8; color: #111116; padding: 0.2rem 0.6rem; border-radius: 4px; }
+        .wl-lounge { font-size: 0.95rem; font-weight: 700; }
+        .wl-details { font-size: 0.78rem; color: #818cf8; }
+        .wl-meta { font-size: 0.72rem; color: #6366f1; margin-top: 0.4rem; }
+        .wl-progress { margin-top: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
+        .wl-bar { flex: 1; height: 4px; background: #27272e; border-radius: 2px; overflow: hidden; }
+        .wl-fill { height: 100%; background: #818cf8; border-radius: 2px; }
+        .wl-pos { font-size: 0.72rem; font-weight: 600; color: #a5b4fc; white-space: nowrap; }
+
+        .profile-hobbies { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
+        .ph-tag { font-size: 0.72rem; background: #27272e; color: #a1a1aa; padding: 0.3rem 0.7rem; border-radius: 6px; font-weight: 500; }
+
+        .lounge-list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.85rem 1rem; background: #18181d; border: 1px solid #27272e;
+            border-radius: 10px; margin-bottom: 0.5rem;
+        }
+        .lli-left { display: flex; align-items: center; gap: 0.75rem; }
+        .lli-icon {
+            width: 36px; height: 36px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: 700;
+        }
+        .lli-icon-green { background: #052e16; color: #4ade80; }
+        .lli-icon-blue { background: #1e1b4b; color: #818cf8; }
+        .lli-icon-amber { background: #422006; color: #fbbf24; }
+        .lli-name { font-size: 0.85rem; font-weight: 600; }
+        .lli-sub { font-size: 0.68rem; color: #52525b; }
+        .lli-date { font-size: 0.68rem; color: #3f3f46; }
+        .lli-rating { font-size: 0.72rem; color: #fbbf24; }
+        .fav-star { color: #fbbf24; font-size: 0.85rem; }
+
+        footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: #3f3f46; border-top: 1px solid #1e1e24; }
+
+        @media (max-width: 768px) {
+            .profile-header { flex-direction: column; text-align: center; }
+            .profile-stats { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Lounge<span>Link</span></div>
+        <div class="nav-pills">
+            <a href="v12.html" class="nav-pill">Map</a>
+            <a href="v12.html#lounges" class="nav-pill">Lounges</a>
+            <a href="profile.html" class="nav-pill active">Profile</a>
+        </div>
+    </nav>
+
+    <section class="profile-section">
+        <div class="profile-header">
+            <div class="profile-avatar">BS</div>
+            <div>
+                <div class="profile-name">Brian Song</div>
+                <div class="profile-handle">@briansong &middot; Priority Pass Member</div>
+                <div class="profile-bio">Frequent flyer. Lounge hopper. Solo traveler open to good conversation.</div>
+            </div>
+        </div>
+
+        <div class="profile-stats">
+            <div class="p-stat"><div class="p-stat-num">47</div><div class="p-stat-label">Lounges visited</div></div>
+            <div class="p-stat"><div class="p-stat-num">12</div><div class="p-stat-label">Countries</div></div>
+            <div class="p-stat"><div class="p-stat-num">8</div><div class="p-stat-label">Solo matches</div></div>
+            <div class="p-stat"><div class="p-stat-num">4.9</div><div class="p-stat-label">Rating</div></div>
+        </div>
+
+        <div class="p-section-title">Active Waitlist</div>
+        <div class="waitlist-card">
+            <div class="wl-header">
+                <div class="wl-lounge">Admirals Club</div>
+                <span class="wl-badge">Solo Traveler Pool</span>
+            </div>
+            <div class="wl-details">Terminal 3 &middot; Concourse H &middot; ORD</div>
+            <div class="wl-meta">Position #5 of 8 &middot; Est. ~12 min remaining</div>
+            <div class="wl-progress">
+                <div class="wl-bar"><div class="wl-fill" style="width:62%"></div></div>
+                <div class="wl-pos">#5</div>
+            </div>
+        </div>
+
+        <div class="p-section-title">My Interests</div>
+        <div class="profile-hobbies">
+            <span class="ph-tag">Travel</span><span class="ph-tag">Photography</span><span class="ph-tag">Coffee</span>
+            <span class="ph-tag">Startups</span><span class="ph-tag">Hiking</span><span class="ph-tag">K-BBQ</span>
+            <span class="ph-tag">Basketball</span>
+        </div>
+
+        <div class="p-section-title">Favorite Lounges &#9733;</div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-amber">IST</div><div><div class="lli-name">Turkish Airlines Lounge</div><div class="lli-sub">Istanbul &middot; International Terminal</div></div></div>
+            <div class="lli-rating">&#9733; 5.0</div>
+        </div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-blue">SIN</div><div><div class="lli-name">Singapore Airlines SilverKris</div><div class="lli-sub">Singapore Changi &middot; Terminal 3</div></div></div>
+            <div class="lli-rating">&#9733; 4.8</div>
+        </div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-green">HKG</div><div><div class="lli-name">Cathay Pacific The Pier</div><div class="lli-sub">Hong Kong &middot; Terminal 1</div></div></div>
+            <div class="lli-rating">&#9733; 4.9</div>
+        </div>
+
+        <div class="p-section-title">Recently Visited</div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-blue">ORD</div><div><div class="lli-name">The Centurion Lounge</div><div class="lli-sub">Chicago O'Hare &middot; Terminal 3</div></div></div>
+            <div class="lli-date">Mar 28</div>
+        </div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-green">NRT</div><div><div class="lli-name">ANA Lounge</div><div class="lli-sub">Tokyo Narita &middot; Terminal 1</div></div></div>
+            <div class="lli-date">Mar 15</div>
+        </div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-amber">ICN</div><div><div class="lli-name">Asiana Lounge</div><div class="lli-sub">Seoul Incheon &middot; Terminal 1</div></div></div>
+            <div class="lli-date">Mar 14</div>
+        </div>
+
+        <div class="p-section-title">Saved for Later</div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-green">DOH</div><div><div class="lli-name">Al Mourjan Business Lounge</div><div class="lli-sub">Doha Hamad &middot; Terminal 1</div></div></div>
+            <div class="fav-star">&#9734;</div>
+        </div>
+        <div class="lounge-list-item">
+            <div class="lli-left"><div class="lli-icon lli-icon-amber">LHR</div><div><div class="lli-name">Virgin Atlantic Clubhouse</div><div class="lli-sub">London Heathrow &middot; Terminal 3</div></div></div>
+            <div class="fav-star">&#9734;</div>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 LoungeLink &middot; Brian Song</footer>
+</body>
+</html>
