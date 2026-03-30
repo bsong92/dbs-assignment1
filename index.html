@@ -301,6 +301,44 @@
             background: #22c55e;
         }
 
+        /* v10 - Dark Map App */
+        .preview-v10 {
+            background: #111116;
+            position: relative;
+        }
+        .preview-v10 .preview-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e4e4e7;
+            text-align: center;
+            line-height: 1.4;
+        }
+        .preview-v10 .preview-text .indigo {
+            color: #818cf8;
+        }
+        .preview-v10 .map-hint {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 0.75rem;
+        }
+        .preview-v10 .mh-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+        .preview-v10 .mh-g { border-color: #22c55e; }
+        .preview-v10 .mh-a { border-color: #f59e0b; }
+        .preview-v10 .mh-r { border-color: #ef4444; }
+        .preview-v10 .mh-you {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #818cf8;
+        }
+
         /* v9 - Warm Travel App */
         .preview-v9 {
             background: #fefcfb;
@@ -625,6 +663,31 @@
                         <span class="tag">Real Photos</span>
                         <span class="tag">Social Profiles</span>
                         <span class="tag">Warm</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="v10.html" class="card">
+                <div class="card-preview preview-v10">
+                    <div class="preview-text">
+                        You're at<br><span class="indigo">Chicago O'Hare</span>
+                    </div>
+                    <div class="map-hint">
+                        <div class="mh-dot mh-g"></div>
+                        <div class="mh-dot mh-a"></div>
+                        <div class="mh-dot mh-r"></div>
+                        <div class="mh-you"></div>
+                    </div>
+                    <span class="preview-label">Map App</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-version">V10</div>
+                    <div class="card-title">Dark Mode Map App</div>
+                    <p class="card-desc">Airport-aware. CSS terminal map with "You are here" marker, travel time per lounge (walk vs. SkyTrain), proximity-gated waitlist join, radio-button solo profiles.</p>
+                    <div class="card-tags">
+                        <span class="tag">Terminal Map</span>
+                        <span class="tag">Travel Time</span>
+                        <span class="tag">Proximity</span>
                     </div>
                 </div>
             </a>
